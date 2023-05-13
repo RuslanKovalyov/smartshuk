@@ -1,0 +1,30 @@
+Places in list 1 gov.il (not in list 2):
+
+Na'ura
+Eilabun
+Gvulot
+Shekhanya
+Kfar Veradim
+Gornot HaGalil
+Aramsha
+Yevul
+Deqel
+Places in list 2 geoNames(not in list 1):
+
+Eilat
+Ashkelon
+Sappir
+Yahel
+Paran
+Tsofar
+Misgav
+Kallanit
+Tuval
+Hatzor Ashdod
+Alumim
+Sderot
+Kibbutz Yad Mordechai
+Mevasseret Zion
+Yavne'el
+Karmei Yosef
+Kibbutz Ein Hashlosha

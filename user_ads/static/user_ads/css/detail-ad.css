@@ -1,0 +1,19 @@
+.ad_card .top_content {
+    direction: rtl;
+}
+
+.ad_card .hidden_content {
+    direction: rtl;
+    visibility: visible;
+    opacity: 1;
+    max-height: 1000px;
+    height: auto;
+    border-radius: 0px 0px 5px 5px;
+    padding: 10px;
+}
+
+@media (max-width: 640px) {
+    .ad_card .visible {
+        padding: 5px;
+    }
+}

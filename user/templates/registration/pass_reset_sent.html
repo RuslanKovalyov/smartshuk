@@ -1,0 +1,19 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Password {% endcomment %}
+    סיסמה
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Password reset sent</h1> {% endcomment %}
+    <h1>הודעת איפוס סיסמה נשלחה</h1>
+
+    {% comment %} <p>We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.</p> {% endcomment %}
+    <p>שלחנו לך אימייל עם הוראות להגדרת הסיסמה שלך, אם החשבון קיים עם הכתובת שהזנת. תקבלו את הוראות זו בקרוב.</p>
+
+    {% comment %} <p>If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.</p> {% endcomment %}
+    <p>אם לא קיבלתם את הודעת האימייל, אנא וודאו שהזנתם את כתובת המייל שנרשמתם איתה, ובדקו את תיבת הספאם שלכם.</p>
+    {% comment %} <a class="button" href="/">Home page</a> {% endcomment %}
+    <a class="button" href="/">דף הבית</a>
+{% endblock unified_form %}

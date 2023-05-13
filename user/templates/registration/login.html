@@ -1,0 +1,58 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Login {% endcomment %}
+    התחברות
+{% endblock title %}
+
+{% block unified_form %}
+
+    <h1>ברוך הבא!</h1>
+
+
+    <p class="alert">
+        {{ message }}
+    </p>
+    {% if user.is_authenticated %}
+
+        {% comment %} <p>You are already logged in.</p> {% endcomment %}
+        <p>כבר מחוברים למערכת.</p>
+
+        <a class="button" href="/">Ok</a>
+    {% else %}
+        <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+            {% if form.errors %}
+            <p class="errorlist">
+                {% comment %} Please enter a correct username and password. Note that both fields may be case-sensitive. {% endcomment %}
+                אנא הזן שם משתמש וסיסמה נכונים.
+                <br>
+                שים לב ששני השדות עשויים להיות רגישים לרישיות.
+            </p>
+            {% endif %}
+
+            {% comment %} <input type="email" name="{{ form.username.name }}" autocomplete="email" autofocus required maxlength="254"  id="{{ form.username.id_for_label }}" placeholder="Email address"> {% endcomment %}
+            <input type="email" name="{{ form.username.name }}" autocomplete="email" autofocus required maxlength="254"  id="{{ form.username.id_for_label }}" placeholder='כתובת דוא"ל'>
+            
+            {% comment %} <input type="password" name="{{ form.password.name }}" required id="{{ form.password.id_for_label }}" placeholder="password"> {% endcomment %}
+            <input type="password" name="{{ form.password.name }}" required id="{{ form.password.id_for_label }}" placeholder="סיסמה">
+
+            {% if ENABLE_RECAPTCHA %}
+                {{ form.captcha }}
+            {% endif %}
+            
+            <input type="hidden" name="next" value="{{ next_url }}">
+
+            {% comment %} <button type="submit">Log in</button> {% endcomment %}
+            <button type="submit">התחברות</button>
+
+            {% comment %} <p>Don't have an account? <a href="/sign_up">Join&nbsp;now</a></p> {% endcomment %}
+            <p>אין לך חשבון?  <a href="/sign_up">הצטרף עכשיו.</a></p>
+
+            {% comment %} <p><a href="/password_reset">Forgot&nbsp;password?</a></p> {% endcomment %}
+            <p><a href="/password_reset">שכחת את הסיסמה?</a></p>
+
+        </form>
+    {% endif %}
+{% endblock unified_form %}

@@ -1,0 +1,21 @@
+<a href="/login/">Login</a>
+
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Password {% endcomment %}
+    סיסמה
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Password reset complete</h1> {% endcomment %}
+    <h1>איפוס הסיסמה הושלם</h1>
+
+    {% comment %} <p>Your password has been set. You may go ahead and log&nbsp;in now.</p> {% endcomment %}
+    <p>הסיסמה שלכם שונתה. ניתן להתחבר כעת.</p>
+
+
+    {% comment %} <a class="button" href="/login">Login</a> {% endcomment %}
+    <a class="button" href="/login">התחברות</a>
+
+{% endblock unified_form %}

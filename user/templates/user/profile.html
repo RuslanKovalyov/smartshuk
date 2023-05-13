@@ -1,0 +1,262 @@
+{% extends 'modules/user_ads_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'user/css/profile_page.css' %}" type="text/css">
+{% endblock extra_css %}
+
+
+{% block main_content %}
+{% comment %} <a href="/profile/{{ user.profile.id }}">Detailed page by id</a><br> {% endcomment %}
+<div class="profile_menu">
+    <div class="dropdown">
+        <button class="dropdown-btn"><span class="email">{{ user.email }}</span>&#9776;</button>
+        <div class="dropdown-content">
+            <a href="#" id="like-count-section">מודעות שאהבתי</a>
+            <a href="#" id="my-ads-section">המודעות שלי</a>
+            <br>
+            <a href="{% url 'logout' %}">התנתקות</a>
+            <a href="/password_change/">שינוי סיסמה</a>
+            <a href="/profile/delete/">מחק משתמש</a>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="ads_container">
+    <h1 id="like-count">
+        מודעות שאהבתי
+        - {{ user.likesRealEstate.count }}
+        <br><br>
+    </h1>
+    {% if user.likesRealEstate.count > 0%}
+        <a class="btn-delete-all-likes" href="#" id="delete-all-likes">מחק את כל המודעות שאהבתי !</a>
+    {% endif %}
+        <p>
+            <br>
+        
+            {% for like in user.likesRealEstate.all %}
+                <div class="like-item">
+                    <div class="info-container" >
+                        <img src="{{ like.ad.picture.url }}" alt="Real Estate Picture">
+                        {{ like.ad.category.singular_name }}
+                        {{ like.ad.deal_type }}
+                    </div>
+
+                    <div class="buttons-container">
+                        <button class="delete-like" data-realestate-id="{{ like.ad.id }}">מחק</button>
+                        <a href="{% url 'real_estate_detail' pk=like.ad.pk %}" class="view-ad-button btn">צפה במודעה</a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </p>
+
+
+    <br>
+    <br>
+    <h1 id="my-ads-count">
+        מודעות שלי
+        - {{ real_estate_ads.count }}
+    </h1>
+    <div class="profile_ads_list">
+        {% for real_estate in real_estate_ads %}
+        <div class="ad-item">
+            <div class="my_ad">
+
+                <div class="ad-bottom-panel">
+                    <div class="buttons-container">
+                        <a href="{% url 'real_estate_detail' pk=real_estate.pk %}" class="view-ad-button btn">צפה במודעה</a>
+                        <form id="deleteForm-{{ real_estate.pk }}" method="POST" action="{% url 'real_estate_delete' real_estate.pk %}">
+                            {% csrf_token %}
+                            <button class="delete-my-ad" type="button" data-realestate-id="{{ real_estate.pk }}" onclick="confirmDelete('deleteForm-{{ real_estate.pk }}')">מחק</button>
+                        </form>
+                    </div>
+                    <div class="info-container">
+                        <span class="date">
+                            {{ real_estate.date|date:"Y-m-d" }}
+                        </span>
+                        <span class="image-container" data-description="{{ real_estate.category }} ל{{ real_estate.deal_type}} ב{{ real_estate.city }}">
+                            <img src="{{ real_estate.picture.url }}" alt="Real Estate Picture">
+                        </span>
+                    </div>
+                </div>
+
+                <p>
+                    {{ real_estate.category.singular_name }}
+                    {{ real_estate.deal_type }}
+                    <br>
+                    {{ real_estate.title }}
+                </p>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Confirm delete ad and smoothly delete the ad item from the DOM
+        function confirmDelete(formId) {
+            if (confirm("האם אתה בטוח שברצונך למחוק את המודעה/פוסט הזה?")) {
+                const adItem = document.querySelector(`#${formId}`).closest('.ad-item');
+                adItem.style.height = `${adItem.offsetHeight}px`; // Set the height explicitly
+                setTimeout(() => {
+                    adItem.style.height = '0px'; // Collapse the height
+                    adItem.classList.add('collapsing');
+                }, 10);
+        
+                setTimeout(() => {
+                    // Extract the CSRF token
+                    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        
+                    fetch(document.getElementById(formId).action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken,
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Remove the ad element from the DOM after collapsing
+                            adItem.remove();
+
+                            // Update ad count
+                            const adCountElement = document.getElementById('my-ads-count');
+                            const currentCountAd = parseInt(adCountElement.textContent.match(/\d+/)[0], 10);
+                            adCountElement.textContent = adCountElement.textContent.replace(/\d+/, currentCountAd - 1);
+        
+                            // Remove the like item with the same real estate ID
+                            const realEstateId = adItem.querySelector('.delete-my-ad').dataset.realestateId;
+                            const likeItem = document.querySelector(`.delete-like[data-realestate-id="${realEstateId}"]`).closest('.like-item');
+                            if (likeItem) {
+                                likeItem.classList.add('collapsing');
+                                setTimeout(() => {
+                                    likeItem.remove();
+                                }, 300);
+            
+                                // Update like count
+                                const likeCountElement = document.getElementById('like-count');
+                                const currentCountLike = parseInt(likeCountElement.textContent.match(/\d+/)[0], 10);
+                                likeCountElement.textContent = likeCountElement.textContent.replace(/\d+/, currentCountLike - 1);
+
+                            }
+                        } else {
+                            console.error('Error:', response.statusText);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }, 310);
+            }
+        }    
+    </script>
+
+    <script>
+        // Delete like and remove the like element from the DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-like');
+
+            deleteButtons.forEach(function(deleteButton) {
+                deleteButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+
+                    // Disable the delete button
+                    deleteButton.disabled = true;
+
+                    const realEstateId = deleteButton.dataset.realestateId;
+
+                    fetch(`/real_estate/like/${realEstateId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Add the collapsing class to smoothly hide the like item
+                            const likeItem = deleteButton.closest('.like-item');
+                            likeItem.classList.add('collapsing');
+                            
+                            // Remove the like item from the DOM after the transition completes
+                            setTimeout(() => {
+                                likeItem.remove();
+
+                                // Update the like count
+                                const likeCountElement = document.getElementById('like-count');
+                                const currentCount = parseInt(likeCountElement.textContent.match(/\d+/)[0], 10);
+                                likeCountElement.textContent = likeCountElement.textContent.replace(/\d+/, currentCount - 1);
+                            }, 300);
+                        } else {
+                            console.error('Error:', response.statusText);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        // Enable the delete button after the response is received
+                        deleteButton.disabled = false;
+                    });
+                });
+            });
+        });
+
+        // Ddelete-all-likes button
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add an event listener for the delete-all-likes button
+            const deleteAllLikesBtn = document.getElementById('delete-all-likes');
+            if (deleteAllLikesBtn) {
+              deleteAllLikesBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+        
+                // Hide the delete all likes button after the action is complete
+                deleteAllLikesBtn.style.display = 'none';
+        
+                // Get all the delete-like buttons
+                const deleteButtons = document.querySelectorAll('.delete-like');
+        
+                // Trigger the click event for each delete-like button
+                deleteButtons.forEach(function(deleteButton) {
+                  deleteButton.click();
+                });
+              });
+            }
+          });
+    </script>
+
+    <script>
+        // Smooth scroll to the ad sections 
+        document.getElementById('like-count-section').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('like-count').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        document.getElementById('my-ads-section').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('my-ads-count').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Toggle the dropdown menu visibility
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdownBtn = document.querySelector(".dropdown-btn");
+            const dropdownContent = document.querySelector(".dropdown-content");
+            const dropdownLinks = document.querySelectorAll(".dropdown-content a");
+
+            dropdownBtn.addEventListener("click", function () {
+                dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+            });
+
+            // Close the dropdown menu when a link is clicked
+            dropdownLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    dropdownContent.style.display = "none";
+                });
+            });
+        });
+    </script>
+
+</div>
+{% endblock main_content %}

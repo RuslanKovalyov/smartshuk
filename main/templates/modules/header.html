@@ -1,0 +1,35 @@
+{% load static %}
+<header>
+    <div class="top_nav">
+        {% if request.resolver_match.url_name == 'real_estate_post' %}
+            {% comment %} <a class="btn top_nav_left" href="{% url 'home' %}">חזרה לדף הבית</a> {% endcomment %}
+        {% else %}
+            <a class="btn top_nav_left" href="{% url 'real_estate_post' %}">פרסם מודעה</a>
+        {% endif %}
+    
+
+            <div class="top_nav_right">
+                {% if user.is_authenticated %}
+                    {% comment %} {% if request.resolver_match.url_name == 'user_profile' %}
+                        <a class="top_nav_right" href="{% url 'home' %}">דף הבית</a>
+                    {% endif %} {% endcomment %}
+                    <a href="{% url 'user_profile' %}">
+                        פרופיל
+                        <img class="profile_ico" src="{% static 'main/icons/man-avatar-profile-260px-no-bg.png' %}" alt="profile">
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}?next={{ request.path }}">
+                        כניסה
+                        {% comment %} והרשמה {% endcomment %}
+                        <img class="profile_ico" src="{% static 'main/icons/man-avatar-profile-260px-no-bg.png' %}" alt="profile">
+                    </a>
+                {% endif %}
+
+                <a href="{% url 'home' %}">
+                    דף הבית
+                    <img class="home_icon" src="{% static 'main/icons/home-2.png' %}" alt="home">
+                </a>
+                
+            </div>
+    </div>
+</header>

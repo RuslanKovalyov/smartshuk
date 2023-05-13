@@ -1,0 +1,44 @@
+{% load static %}
+
+<div class="">
+    
+    <span class="image-container" data-description="עלילה, תמונה על האירוע.">
+        <img class="" style="width: 100%;" src="{% static 'main/event-images/event.jpg' %}" alt="עלילה, תמונה על האירוע.">
+    </span>
+
+    <div class="credits" style=" position: sticky; bottom: 0;">
+
+        <p>
+        <a class="" href="{% url 'policy' %}">פרטיות&nbsp;ותנאי&nbsp;שימוש</a> 
+            |
+            {% if user.is_authenticated %}
+            {% if request.resolver_match.url_name == 'user_profile' %}
+                <a href="{% url 'logout' %}">התנתקות</a>
+            {% else %}
+                <a href="{% url 'user_profile' %}">
+                    פרופיל
+                </a>
+            {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}">כניסה&nbsp;והרשמה</a>
+            {% endif %}
+        </p>
+        
+        <p>
+            .Creation & support&nbsp;by
+            <a class="link" href="https://www.linkedin.com/in/ruslan-developer/" target="_blank">@Ruslan_K</a>
+        </p>
+        
+        <p>
+            <a href="{% url 'about' %}">על הפרוייקט</a>
+            |
+            <a class="copyright" href="{% url 'home' %}">smartshuk.co.il &copy; {% now "Y" %}</a>
+            {% comment %} 2023 - {% endcomment %}
+        </p>
+
+    </div>         
+</div>
+
+<footer>
+    {% comment %} גרסת בטא (דמו) {% endcomment %}
+</footer>

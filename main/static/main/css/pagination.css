@@ -1,0 +1,38 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    direction: rtl;
+    width: 100%;
+}
+
+.pagination .step-links {
+    display: flex;
+    align-items: center;
+}
+
+.pagination .step-links a,
+.pagination .step-links span {
+    color: rgb(255 150 0);
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.pagination .step-links a:hover {
+    background-color: rgb(255 150 0);
+    color: black;
+}
+
+.pagination .step-links span.current {
+    background-color: #333;
+    color: #fff;
+}
+
+.current_page_numb p {
+    text-align: center;
+    font-size: xx-small;
+    color: gray !important;
+}

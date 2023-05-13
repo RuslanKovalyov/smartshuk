@@ -1,0 +1,193 @@
+<div class="search_wraper">
+    <h1>נדל"ן</h1>
+    <div class="search_container">
+        {{ form.category }}
+        {{ form.deal_type }}
+        {{ form.city }}
+        <input class='field' type="submit" value="חיפוש" id='id_submit'>
+    </div>
+    {{ field.errors }}
+    <div id="filters" class="filters">
+        
+        {% comment %} <div class="scroll_btn">
+            < >
+        </div> {% endcomment %}
+        
+        <span class="filter">
+            {{ form.max_cost }}
+            <span class="title">מחיר עד</span>
+        </span>
+
+        <div class="wrap_slider">
+            <div class="slider" id="slider-distance">
+                
+                <div>
+                    <div inverse-left style="width:70%;"></div>
+                    <div inverse-right style="width:70%;"></div>
+                    <div range style="left:0%;right:0%;"></div>
+                    <span thumb style="left:0%;"></span>
+                    <span thumb style="left:100%;"></span>
+                    
+                    <div sign style="left:0%;">
+                        <span id="value">0</span>
+                    </div>
+                    
+                    <div sign >
+                        <span id="value">6</span>
+                    </div>
+
+                    <span 
+                        style="
+                        position: absolute;
+                        right: -15px;
+                        top: -9.5px;
+                        font-size: 20px;
+                        color: #111;"
+                        >
+                        +
+                    </span>
+
+                </div>
+                {{ form.min_rooms }}
+                {{ form.max_rooms }}        
+                <script>    
+                    var min_rooms = document.getElementById("id_min_rooms")
+                    min_rooms.value = Math.min(min_rooms.value,min_rooms.parentNode.childNodes[5].value-1);
+                    var value=(100/(parseInt(min_rooms.max)-parseInt(min_rooms.min)))*parseInt(min_rooms.value)-(100/(parseInt(min_rooms.max)-parseInt(min_rooms.min)))*parseInt(min_rooms.min);
+                    var children = min_rooms.parentNode.childNodes[1].childNodes;
+                    children[1].style.width=value+'%';
+                    children[5].style.left=value+'%';
+                    children[7].style.left=value+'%';children[11].style.left=value+'%';
+                    children[11].childNodes[1].innerHTML=min_rooms.value;
+                    
+                    var max_rooms = document.getElementById("id_max_rooms")
+                    max_rooms.value = Math.max(max_rooms.value,max_rooms.parentNode.childNodes[3].value-(-1));
+                    var value=(100/(parseInt(max_rooms.max)-parseInt(max_rooms.min)))*parseInt(max_rooms.value)-(100/(parseInt(max_rooms.max)-parseInt(max_rooms.min)))*parseInt(max_rooms.min);
+                    var children = max_rooms.parentNode.childNodes[1].childNodes;
+                    children[3].style.width=(100-value)+'%';
+                    children[5].style.right=(100-value)+'%';
+                    children[9].style.left=value+'%';children[13].style.left=value+'%';
+                    children[13].childNodes[1].innerHTML=max_rooms.value;
+                </script>
+
+                <script>
+                    {% comment %} script that will add a no-scroll class to the #filters element when the slider is being interacted with {% endcomment %}
+                    var slider = document.querySelector('.wrap_slider');
+                
+                    slider.addEventListener('touchstart', function(e) {
+                        e.stopPropagation();
+                        document.querySelector('#filters').classList.add('no-scroll');
+                    });
+                
+                    slider.addEventListener('touchend', function() {
+                        document.querySelector('#filters').classList.remove('no-scroll');
+                    });
+                
+                    //$(document).ready(function() {
+                    //    $(".slider input[type=range]").on("mousedown touchstart", function(e) {
+                    //        e.stopPropagation();
+                    //        document.querySelector('#filters').classList.add('no-scroll');
+                    //    });
+                    //    $(".slider input[type=range]").on("mouseup touchend", function() {
+                    //        document.querySelector('#filters').classList.remove('no-scroll');
+                    //    });
+                    //});
+                </script>
+            </div>
+            <span class="title">מספר חדרים</span>
+            
+        </div>
+
+        {% comment %} https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown {% endcomment %}
+
+        <span class="filter toggle">
+            {{ form.is_new }}
+            <label for="id_is_new"></label>
+            <span class="title">בניין חדש</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.renovated }}
+            <label for="id_renovated"></label>
+            <span class="title">משופץ</span>
+        </span>
+
+        <span class="filter toggle">
+            {{ form.furnished }}
+            <label for="id_furnished"></label>
+            <span class="title">מרוהט</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.balcony }}
+            <label for="id_balcony"></label>
+            <span class="title">מרפסת</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.bunker }}
+            <label for="id_bunker"></label>
+            <span class="title">ממ״ד</span>
+        </span>
+
+        <span class="filter toggle">
+            {{ form.storage }}
+            <label for="id_storage"></label>
+            <span class="title">מחסן</span>
+        </span>
+
+        <span class="filter toggle">
+            {{ form.conditioner }}
+            <label for="id_conditioner"></label>
+            <span class="title">מזגן</span>
+        </span>
+
+        <span class="filter toggle">
+            {{ form.elevator }}
+            <label for="id_elevator"></label>
+            <span class="title">מעלית</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.parking }}
+            <label for="id_parking"></label>
+            <span class="title">חניה</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.disabled_access }}
+            <label for="id_disabled_access"></label>
+            <span class="title">גישה לנכים</span>
+        </span>
+        
+        {% comment %} <span class="filter toggle">
+            {{ form.without_intermediaries }}
+            <label for="id_without_intermediaries"></label>
+            <span class="title">ללא מתווך</span>
+        </span> {% endcomment %}
+        
+        <span class="filter toggle">
+            {{ form.with_phote_only_toggle }}
+            <label for="id_with_phote_only_toggle"></label>
+            <span class="title">עם תמונה</span>
+        </span>
+        
+        <span class="filter toggle">
+            {{ form.exclusive }}
+            <label for="id_exclusive"></label>
+            <span class="title">בבלעדיות</span>
+        </span>
+        
+
+
+
+
+        {% comment %} <span class="filter">
+            {% include  "../module/range_slider.html"%}
+            <span class="title">מספר חדרים</span>
+        </span> {% endcomment %}
+        
+        
+    </div>
+    <br>
+<div>

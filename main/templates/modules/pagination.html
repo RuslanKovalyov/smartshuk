@@ -1,0 +1,60 @@
+{% comment %} min paginator, without numbers of page buttons
+{% block pagination %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if ads.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ ads.previous_page_number }}"><< previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ ads.number }} of {{ ads.paginator.num_pages }}.
+            </span>
+
+            {% if ads.has_next %}
+                <a href="?page={{ ads.next_page_number }}">next >></a>
+                <a href="?page={{ ads.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+{% endblock %}
+{% endcomment %}
+
+{% comment %} paginator, with numbers of page buttons {% endcomment %}
+{% block pagination %}
+{% if ads.paginator.num_pages > 1 %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if ads.has_previous %}
+                <a href="?page={{ ads.previous_page_number }}"> << </a>
+            {% endif %}
+
+            {% with start_page=ads.number|add:"-2" %}
+                {% for i in ads.paginator.page_range %}
+                    {% if i >= start_page and i <= start_page|add:"5" %}
+                        {% if ads.number == i %}
+                            <span class="current"> {{ i }} </span>
+                        {% else %}
+                            <a href="?page={{ i }}"> {{ i }} </a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+
+            {% if ads.has_next %}
+                <a href="?page={{ ads.next_page_number }}"> >> </a>
+            {% endif %}
+        </span>
+    </div>
+    
+    <div class="current_page_numb">
+        <p>
+            עמוד {{ ads.number }} מתוך {{ ads.paginator.num_pages }}
+        </p>
+    </div>
+{% endif %}
+{% endblock %}
+
+

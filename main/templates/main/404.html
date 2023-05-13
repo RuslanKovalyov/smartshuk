@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+    <head>
+        {% comment %} Google tag (gtag.js) {% endcomment %}
+        {% include 'modules/google_analytics_tag.html' %}
+
+        {% include 'modules/head_set.html' %}
+        <title>
+        {% block title %}
+            404
+        {% endblock title %}
+        </title>
+        <link rel="icon" href="{% static 'main/icons/title-ico.png' %}" type="image/png">
+    </head>
+
+    <body>
+        {% include 'modules/header.html' %}
+        <main style="background-color: rgb(18,30,59) ">
+            <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                flex-direction: column;
+            ">
+                <img src="{% static 'main/icons/404.jpg' %}" alt="404" style="max-width: 100%;">
+            </div>
+        </main>
+        {% include 'modules/accessible_menu.html' %}
+        {% include 'modules/footer.html' %}
+    </body>
+
+</html>

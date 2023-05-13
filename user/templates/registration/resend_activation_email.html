@@ -1,0 +1,26 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} ReActivation {% endcomment %}
+    הפעלה מחדש
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Activate Your Account</h1> {% endcomment %}
+    <h1>הפעלת החשבון שלכם</h1>
+
+    {% comment %} <p>{{ user.email }} account has not yet been activated.<br>
+        Please check your email for an activation link,
+        If you don't receive an email, check your spam folder
+        or <a href="{% url 'reactivate_user' email=user.email %}">click&nbsp;here</a> to request a new activation email.                          
+    </p> {% endcomment %}
+    <p>החשבון {{ user.email }} עדיין לא הופעל.<br>
+        אנא בדקו את המייל שלכם לקישור ההפעלה,
+        אם לא קיבלתם את ההודעה, בדקו את תיבת הספאם
+        או <a href="{% url 'reactivate_user' email=user.email %}">לחצו כאן</a> כדי לבקש מייל הפעלה חדש.
+    </p>
+
+    {% comment %} <a class="button" href="/">Ok</a> {% endcomment %}
+    <a class="button" href="/">הבנתי</a>
+
+{% endblock unified_form %}

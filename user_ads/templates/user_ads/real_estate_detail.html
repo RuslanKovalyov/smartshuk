@@ -1,0 +1,133 @@
+{% extends 'user_ads/real_estate.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'user_ads/css/detail-ad.css' %}" type="text/css">
+{% endblock extra_css %}
+
+{% block Page_Title_Top_Info%}
+                    
+{% endblock Page_Title_Top_Info %}
+
+{% block top_content %}
+                    <div class="image-container" data-description="{{ ad.category }} ל{{ ad.deal_type}} ב{{ ad.city }}">
+                        <img class="opener" loading="lazy"  alt="תמונה" src="{% if ad.picture.url %}{{ ad.picture.url }}{% else %}{% static "main/default-photos/ad-main-img.jpg" %}{% endif %}">
+                    </div>
+
+
+                    <div class="info">
+                        <p>
+                        {{ ad.category}}
+
+                        {% if ad.rooms <= 0 %}
+                            <span class="important_text">סטודיו</span>,
+                        {% elif ad.rooms == 1 %}
+                            חדר&nbsp;<span class="important_text">{{ ad.rooms }}</span>,
+                        {% else %}
+                            <span class="important_text">{{ ad.rooms }}</span>&nbsp;חדרים,
+                        {% endif%}
+
+                        מ"ר&nbsp;<span class="important_text">{{ ad.size_m2 }}</span>,
+                        
+                        {% if ad.number_floors_in_house > 1 %}
+
+                            {% if ad.floor != 0 %}
+                                קומה&nbsp;<span class="important_text">{{ ad.floor }}</span> בבניין בן {{ ad.number_floors_in_house }} קומות.
+                            {% else %}
+                                קומה&nbsp;<span class="important_text">קרקע</span> בבניין בן {{ ad.number_floors_in_house }} קומות.
+                            {% endif%}
+
+                        {% else %}
+                            {% if ad.floor != 0 %}
+                                קומה&nbsp;<span class="important_text">{{ ad.floor }}</span> של בית חד קומתי.
+                            {% else %}
+                                קומה&nbsp;<span class="important_text">קרקע</span> של בית חד קומתי.
+                            {% endif%}
+                        {% endif%}
+                        <br>
+
+                        {{ ad.city }}
+                        <br>
+
+                        {% if ad.cost > 0 %}
+                            מחיר <span class="important_text">{{ ad.cost}}</span> ש״ח
+                        {% elif ad.cost == 0 %}
+                            {% comment %} gratis {% endcomment %}
+                            <span class="important_text">חינם</span>
+                        {% elif ad.cost == -1 %}
+                            {% comment %} auction {% endcomment %}
+                            <span class="important_text">מכירה פומבית</span>
+                        {% elif ad.cost == -2 %}
+                            {% comment %} not specified {% endcomment %}
+                            מחיר <span class="important_text">לא מוגדר</span>
+                        {% else %}
+                            {% comment %} incorrect value {% endcomment %}
+                            מחיר <span class="important_text">ערך שגוי</span>
+                        {% endif %}
+                        </p>
+                        
+                    </div>
+
+{% endblock top_content %}
+
+{% block hidden_content %}
+
+    <div class="gallery">
+        {% for picture in ad.pictures.all %}
+            <span class="image-container" data-description="{{ ad.category }} ל{{ ad.deal_type}} ב{{ ad.city }}">
+                <img class="opener" loading="lazy" src="{{ picture.picture.url }}" alt="תמונה">
+            </span>
+        {% endfor %}
+    </div>
+                        
+    <div class="info_box_big">
+        <span class="box_title">
+            <p>
+                כותרת
+            </P>
+            <br>
+        </span>
+
+        <p class="ad_title">{{ ad.title}}</p>
+    </div>
+
+    <div class="info_box_big">
+        <span class="box_title">
+            <p>
+                תיאור
+            </P>
+            <br>
+        </span>
+
+        <p>{{ ad.description}}</p>
+    </div>
+    <div class=" info_box_big">
+        <span class="box_title">
+            <p>
+                תוספות
+            </P>
+            <br>
+        </span>
+
+        {% include 'user_ads/real_estate_ad_boolian_features_icons.html' %}
+
+    </div>
+    
+    <div class="info_box_big">
+        <span class="box_title">
+            <p>
+                צור קשר
+            </P>
+            <br>
+        </span>
+
+    <span class="fly_button"><a href="tel:{{ ad.phone }}">טלפון: {{ ad.phone}}</a></span>
+    </div>
+  
+
+{% endblock hidden_content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

@@ -1,0 +1,18 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+	{% comment %} Activation - Error {% endcomment %}
+	הפעלה - שגיאה
+{% endblock title %}
+
+{% block unified_form %}
+	{% comment %} <h1>Activation Error</h1> {% endcomment %}
+	<h1>שגיאת הפעלה</h1>
+
+	{% comment %} <p>There was an error with the activation link. Please try again or contact support for assistance.</p> {% endcomment %}
+	<p>אירעה שגיאה עם קישור ההפעלה. אנא נסו שוב או פנו לתמיכה לעזרה.</p>
+
+	{% comment %} add new link request {% endcomment %}
+
+	<a class="button" href="/">Ok</a>
+{% endblock unified_form %}

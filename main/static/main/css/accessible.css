@@ -1,0 +1,543 @@
+/* styles for the content of the page used by the accessibility plugin */
+/* ridable font */
+body.accessible-readable-font * {
+    font-family: sans-serif !important;
+    font-size: medium !important;
+}
+
+/*  big fonts  */
+body.accessible-big-font * {
+    font-size: x-large !important;
+}
+
+body.accessible-big-font h1,
+body.accessible-big-font h2,
+body.accessible-big-font h3,
+body.accessible-big-font h4,
+body.accessible-big-font h5,
+body.accessible-big-font h6 {
+    font-size: 1.3em !important;
+}
+
+.accessible-focus-mode select,
+.accessible-focus-mode input,
+.accessible-focus-mode textarea,
+.accessible-focus-mode .btn,
+.accessible-focus-mode a,
+.accessible-focus-mode button,
+.accessible-focus-mode img,
+.accessible-focus-mode .icon,
+.accessible-focus-mode .toggle,
+.accessible-focus-mode p,
+.accessible-focus-mode h1,
+.accessible-focus-mode h2,
+.accessible-focus-mode h3,
+.accessible-focus-mode h4,
+.accessible-focus-mode h5,
+.accessible-focus-mode h6 {
+    filter: blur(3px);
+}
+
+.accessible-focus-mode *:focus,
+.accessible-focus-mode *:hover,
+.accessible-focus-mode div #enlarged-image,
+.accessible-focus-mode .top_content:focus *,
+.accessible-focus-mode .top_content:hover *,
+.accessible-focus-mode *:focus p *,
+.accessible-focus-mode *:hover p *,
+.accessible-focus-mode *:focus span *,
+.accessible-focus-mode *:hover span * {
+    filter: blur(0px) !important;
+    /* color: red !important; */
+}
+
+.accessible-focus-mode select:hover,
+.accessible-focus-mode input:hover,
+.accessible-focus-mode textarea:hover,
+.accessible-focus-mode .btn:hover,
+.accessible-focus-mode a:hover,
+.accessible-focus-mode button:hover,
+.accessible-focus-mode img:hover,
+.accessible-focus-mode .icon:hover,
+.accessible-focus-mode .toggle:hover,
+.accessible-focus-mode p:hover,
+.accessible-focus-mode h1:hover,
+.accessible-focus-mode h2:hover,
+.accessible-focus-mode h3:hover,
+.accessible-focus-mode h4:hover,
+.accessible-focus-mode h5:hover,
+.accessible-focus-mode h6:hover {
+    border: 1px solid #ff9900 !important;
+    box-shadow: 0 0 30px #ff990077 !important;
+}
+
+
+/* dark mode */
+body.accessible-dark-mode,
+body.accessible-dark-mode header,
+body.accessible-dark-mode main,
+body.accessible-dark-mode footer,
+body.accessible-dark-mode p.credits {
+    background-color: black !important;
+}
+
+body.accessible-dark-mode .inner {
+    background-color: #222 !important;
+}
+
+body.accessible-dark-mode * {
+    color: #999 !important;
+    border-color: #444 !important;
+
+}
+
+body.accessible-dark-mode h1,
+body.accessible-dark-mode h2,
+body.accessible-dark-mode h3,
+body.accessible-dark-mode h4,
+body.accessible-dark-mode h5,
+body.accessible-dark-mode h6,
+body.accessible-dark-mode .box_title * {
+    color: #eee !important;
+}
+
+body.accessible-dark-mode a {
+    color: #55a !important;
+}
+
+body.accessible-dark-mode .profile_menu .dropdown-content {
+    background-color: black !important;
+    color: gray !important;
+}
+
+body.accessible-dark-mode .ads_container *,
+body.accessible-dark-mode .filters .filter,
+body.accessible-dark-mode .filters .wrap_slider,
+body.accessible-dark-mode textarea,
+body.accessible-dark-mode input[type="text"],
+body.accessible-dark-mode input[type="file"],
+body.accessible-dark-mode input[type="number"],
+body.accessible-dark-mode input[type="date"],
+body.accessible-dark-mode input[type="email"],
+body.accessible-dark-mode input[type="password"],
+body.accessible-dark-mode *::-webkit-input-placeholder,
+body.accessible-dark-mode select {
+    background-color: #111 !important;
+    color: #999 !important;
+}
+
+body.accessible-dark-mode .filters::-webkit-scrollbar {
+    -webkit-appearance: none !important;
+}
+
+body.accessible-dark-mode .filters::-webkit-scrollbar {
+    background-color: #111 !important;
+    height: 10px !important;
+    width: 0px !important;
+
+}
+
+body.accessible-dark-mode .filters::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #111 !important;
+    border-radius: 10px !important;
+}
+
+body.accessible-dark-mode .filters::-webkit-scrollbar-thumb {
+    border-radius: 5px !important;
+    background-color: #333 !important;
+}
+
+body.accessible-dark-mode .ads_container {
+    background-color: transparent !important;
+}
+
+body.accessible-dark-mode .info_box_big,
+body.accessible-dark-mode .info_box_big * {
+    background-color: black !important;
+}
+
+body.accessible-dark-mode button,
+body.accessible-dark-mode .btn,
+body.accessible-dark-mode .details_button,
+body.accessible-dark-mode .like,
+body.accessible-dark-mode input[type="submit"],
+body.accessible-dark-mode button[type="submit"] * {
+    background-color: #444 !important;
+    color: #eee !important;
+}
+
+body.accessible-dark-mode .liked {
+    color: #f00 !important;
+}
+
+body.accessible-dark-mode .error {
+    color: rgb(200, 125, 125) !important;
+    background-color: rgb(75, 75, 75) !important;
+    border-color: #444 !important;
+    box-shadow: 0 0 30px #88520077 !important;
+}
+
+/* bright mode */
+body.accessible-bright-mode,
+body.accessible-bright-mode header,
+body.accessible-bright-mode main,
+body.accessible-bright-mode footer,
+body.accessible-bright-mode .footer,
+body.accessible-bright-mode p.credits,
+body.accessible-bright-mode .credits {
+    background-color: white !important;
+}
+
+body.accessible-bright-mode .inner {
+    background-color: #ddd !important;
+}
+
+body.accessible-bright-mode * {
+    color: black !important;
+    border-color: #444 !important;
+
+}
+
+body.accessible-bright-mode h1,
+body.accessible-bright-mode h2,
+body.accessible-bright-mode h3,
+body.accessible-bright-mode h4,
+body.accessible-bright-mode h5,
+body.accessible-bright-mode h6,
+body.accessible-bright-mode .box_title * {
+    color: orangered !important;
+}
+
+body.accessible-bright-mode a {
+    color: #55a !important;
+}
+
+body.accessible-bright-mode .profile_menu .dropdown-content {
+    background-color: white !important;
+    color: gray !important;
+}
+
+body.accessible-bright-mode .ads_container *,
+body.accessible-bright-mode .filters .filter,
+body.accessible-bright-mode .filters .wrap_slider,
+body.accessible-bright-mode textarea,
+body.accessible-bright-mode input[type="text"],
+body.accessible-bright-mode input[type="file"],
+body.accessible-bright-mode input[type="number"],
+body.accessible-bright-mode input[type="date"],
+body.accessible-bright-mode input[type="email"],
+body.accessible-bright-mode input[type="password"],
+body.accessible-bright-mode *::-webkit-input-placeholder,
+body.accessible-bright-mode select {
+    background-color: whitesmoke !important;
+    color: black !important;
+}
+
+body.accessible-bright-mode .filters::-webkit-scrollbar {
+    -webkit-appearance: none !important;
+}
+
+body.accessible-bright-mode .filters::-webkit-scrollbar {
+    background-color: #ccc !important;
+    height: 10px !important;
+    width: 0px !important;
+
+}
+
+body.accessible-bright-mode .filters::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #ccc !important;
+    border-radius: 10px !important;
+}
+
+body.accessible-bright-mode .filters::-webkit-scrollbar-thumb {
+    border-radius: 5px !important;
+    background-color: #555 !important;
+}
+
+body.accessible-bright-mode .ads_container {
+    background-color: transparent !important;
+}
+
+body.accessible-bright-mode .info_box_big,
+body.accessible-bright-mode .info_box_big * {
+    background-color: white !important;
+}
+
+body.accessible-bright-mode button,
+body.accessible-bright-mode .btn,
+body.accessible-bright-mode .details_button,
+body.accessible-bright-mode .like,
+body.accessible-bright-mode input[type="submit"],
+body.accessible-bright-mode button[type="submit"] * {
+    background-color: #ccc !important;
+    color: rgb(0, 30, 0) !important;
+}
+
+body.accessible-bright-mode .liked {
+    color: #f00 !important;
+}
+
+body.accessible-bright-mode .ad_features_icons_container .icon img {
+    background-color: black !important;
+    filter: invert(1) !important;
+}
+
+/* big cursor */
+/* generate dynamically in head_set.html */
+
+/* highlight titles */
+body.accessible-highlight-titles h1,
+body.accessible-highlight-titles h2,
+body.accessible-highlight-titles h3,
+body.accessible-highlight-titles h4,
+body.accessible-highlight-titles h5,
+body.accessible-highlight-titles h6,
+body.accessible-highlight-titles .box_title * {
+    background-color: black !important;
+    color: yellow !important;
+    border: 1px dotted yellow !important;
+}
+
+/* highlight links */
+body.accessible-highlight-links .fly_button a,
+body.accessible-highlight-links a {
+    background-color: white !important;
+    color: blue !important;
+    border: 1px dotted blue !important;
+    text-decoration: underline !important;
+}
+
+/* monohrome mode */
+body.accessible-monochrome-mode {
+    filter: grayscale(1) !important;
+}
+
+/* saturate mode */
+body.accessible-saturate-mode {
+    filter: saturate(250%) !important;
+}
+
+/* stop animations */
+body.accessible-stop-animations,
+body.accessible-stop-animations *,
+body.accessible-stop-animations *::before,
+body.accessible-stop-animations *::after,
+body.accessible-stop-animations *:hover,
+body.accessible-stop-animations *:focus,
+body.accessible-stop-animations *:active {
+    animation-play-state: paused !important;
+    -webkit-animation-play-state: paused !important;
+    animation: initial !important;
+    transition: initial !important;
+
+}
+
+/* image descriptions */
+body.accessible-image-description .image-container {
+    position: relative !important;
+    display: inline-block !important;
+}
+
+body.accessible-image-description .image-container:not(.exclude-description):hover::before {
+    content: attr(data-description) !important;
+    position: relative !important;
+    top: 0px !important;
+    left: 0px !important;
+
+    margin: 0 !important;
+    transform: translate(-50%, -50%) !important;
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid orangered !important;
+    padding: 5px 10px !important;
+    font-size: 18px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: ellipsis !important;
+    width: min-content !important;
+    text-align: center !important;
+    z-index: 999 !important;
+}
+
+
+/* styles for the accessibility plugin */
+.accessibility_menu {
+    line-height: 1.5 !important;
+    -webkit-user-select: none !important;
+    /* Safari */
+    -ms-user-select: none !important;
+    /* IE 10 and IE 11 */
+    user-select: none !important;
+    /* Standard syntax */
+    text-align: right !important;
+    position: fixed !important;
+    bottom: 0px !important;
+    left: -325px !important;
+    width: 300px !important;
+    max-width: 90%;
+    padding: 10px !important;
+    background-color: #ddf !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: left 0.3s ease !important;
+    z-index: 1000 !important;
+    max-height: 95vh !important;
+    overflow-y: scroll !important;
+}
+
+.accessibility_menu.open {
+    left: 0 !important;
+}
+
+.accessibility_menu * {
+    color: black !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+}
+
+.accessible-readable-font .accessibility_menu * {
+    font-size: 18px !important;
+}
+
+.accessible-big-font .accessibility_menu * {
+    font-size: 22px !important;
+}
+
+/* Hide the default browser checkboxes */
+.accessibility_menu label input[type='checkbox'] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    outline: none !important;
+    visibility: hidden;
+}
+
+.accessibility_menu label {
+    cursor: pointer !important;
+    width: 100% !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+
+.accessible-dark-mode .accessibility_menu {
+    background-color: #222 !important;
+}
+
+.accessible-dark-mode .accessibility_menu {
+    color: gray !important;
+}
+
+.accessible-bright-mode .accessibility_menu {
+    background-color: #fff !important;
+}
+
+.accessible-bright-mode .accessibility_menu * {
+    color: black !important;
+}
+
+.accessibility_menu_toggle {
+    font-size: 20px !important;
+    position: fixed !important;
+    left: 0px !important;
+    bottom: 30px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    background-color: transparent !important;
+    color: black;
+    cursor: pointer !important;
+    z-index: 999 !important;
+    filter: blur(0px) !important;
+}
+
+.accessibility_menu_toggle img {
+    background-color: rgb(0, 0, 128);
+    border: 0px solid transparent;
+    padding: 0px;
+    border-radius: 0px 10px 10px 0px;
+    width: 30px !important;
+    height: 30px !important;
+    filter: blur(0px) !important;
+}
+
+.accessible-big-font .accessibility_menu_toggle {
+    font-size: 24px !important;
+}
+
+/* reset button */
+#reset-accessibility-settings {
+    position: absolute !important;
+    left: 0px !important;
+    top: 0px !important;
+    padding: 5px 10px !important;
+    background-color: #5555 !important;
+    border: 1px solid #77f !important;
+    cursor: pointer !important;
+    z-index: 1001 !important;
+    filter: blur(0px) !important;
+}
+
+#reset-accessibility-settings:active {
+    background-color: #77f !important;
+    color: white !important;
+}
+
+/* close button */
+#close-accessibility-menu {
+    position: absolute !important;
+    right: 0px !important;
+    top: 0px !important;
+    padding: 5px 10px !important;
+    background-color: #5555 !important;
+    border: 1px solid #77f !important;
+    cursor: pointer !important;
+    z-index: 1001 !important;
+    filter: blur(0px) !important;
+}
+
+#close-accessibility-menu:active {
+    background-color: #77f !important;
+    color: white !important;
+}
+
+.accessible-dark-mode #close-accessibility-menu {
+    background-color: #557 !important;
+    border: 1px solid #007 !important;
+}
+
+/* mark the current mode */
+.accessibility_menu input[type="checkbox"]:checked+span {
+    background-color: #ccf !important;
+    border: 1px solid #77f !important;
+    padding: 5px 10px !important;
+    border-radius: 4px;
+}
+
+.accessible-dark-mode input[type="checkbox"]:checked+span {
+    background-color: #557 !important;
+    border: 1px solid #007 !important;
+}
+
+.accessible-highlight-titles .accessibility_menu h1,
+.accessible-highlight-titles .accessibility_menu h2,
+.accessible-highlight-titles .accessibility_menu h3,
+.accessible-highlight-titles .accessibility_menu h4,
+.accessible-highlight-titles .accessibility_menu h5,
+.accessible-highlight-titles .accessibility_menu h6,
+.accessible-highlight-titles .accessibility_menu .box_title * {
+    background-color: black !important;
+    color: yellow !important;
+    border: 1px dotted yellow !important;
+}
+
+.accessible-saturate-mode .accessibility_menu_toggle,
+.accessible-monochrome-mode .accessibility_menu_toggle,
+.accessible-saturate-mode .accessibility_menu.open,
+.accessible-monochrome-mode .accessibility_menu.open {
+    position: sticky !important;
+    bottom: 0px !important;
+    margin-right: auto !important;
+    margin-left: 0px !important;
+}
+
+/* collapsible-reader-content */

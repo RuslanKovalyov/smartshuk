@@ -1,0 +1,55 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Sign up {% endcomment %}
+    הרשמה
+{% endblock title %}
+
+{% block unified_form %}
+
+    {% comment %} <h1>Create an account</h1> {% endcomment %}
+    <h1>צור חשבון</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p class="errorlist"> * {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% comment %} <input type="email" name="{{ form.username.name }}" autocomplete="email" autofocus required maxlength="254"  id="{{ form.username.id_for_label }}" placeholder="Email address"> {% endcomment %}
+        {% comment %} <input type="email" name="{{ form.email.name }}" autofocus required maxlength="254"  id="id_email" placeholder="Email address"> {% endcomment %}
+        <input type="email" name="{{ form.email.name }}" autofocus required maxlength="254"  id="id_email" placeholder="כתובת אימייל">
+        
+        {% comment %} <p class="tiplist">It must be a minimum of 8 characters in length.</p> {% endcomment %}
+        {% comment %} <p class="tiplist">It cannot consist entirely of numeric digits.</p> {% endcomment %}
+        <p class="tiplist"> הסיסמה חייבת להיות באורך של לפחות 8 תווים ולא יכולה להכיל רק מספרים.</p>
+
+        {% comment %} <input type="password" name="{{ form.password1.name }}" autocomplete="new-password" required id="id_password1" placeholder="Password"> {% endcomment %}
+        <input type="password" name="{{ form.password1.name }}" autocomplete="new-password" required id="id_password1" placeholder="סיסמה">
+
+
+        {% comment %} <p class="tiplist">Enter the same password as before, for verification.</p> {% endcomment %}
+        <p class="tiplist">הכנס את אותה הסיסמה שהקלדת לפני כדי לאמת.</p>
+        {% comment %} <input type="password" name="{{ form.password2.name }}" autocomplete="new-password" required id="id_password2" placeholder="Password confirmation"> {% endcomment %}
+        <input type="password" name="{{ form.password2.name }}" autocomplete="new-password" required id="id_password2" placeholder="אימות סיסמה">
+
+
+        {% comment %} <button type="submit">Sign up</button> {% endcomment %}
+
+        {% if ENABLE_RECAPTCHA %}
+            {{ form.captcha }}
+        {% endif %}
+
+
+        <div class="tiplist" style="display: flex; align-items: center;">
+            <label for="terms-checkbox" style="margin-right: 10px;">
+                אני מאשר שקראתי ומסכים עם <a href="{% url 'policy' %}">פרטיות ותנאי שימוש</a>.
+            </label>
+            <input type="checkbox" name="terms" id="terms-checkbox" required>
+        </div>
+        
+        <button type="submit">הרשמה</button>
+    </form>
+{% endblock unified_form %}

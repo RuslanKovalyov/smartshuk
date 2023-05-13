@@ -1,0 +1,136 @@
+{% load static %}
+<div class="ad_features_icons_container">
+
+    <div class="
+            {% if ad.renovated %}
+                icon
+            {% else %}
+                icon icon-gray-mask
+            {% endif %}">
+
+        <img loading="lazy"src="{% static 'user_ads/icons/roller.png' %}" alt="לאחר שיפוץ" />
+        <span class="icon_text">משופץ</span>
+    </div>
+    
+    <div class="
+        {% if ad.parking %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/parking.png' %}" alt="חניה" />
+        <span class="icon_text">חניה</span>
+    </div>
+
+    <div class="
+        {% if ad.is_new %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/is_new.png' %}" alt="חדש" />
+        <span class="icon_text">חדש</span>
+    </div>
+
+    <div class="
+        {% if ad.furnished %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/furnished.png' %}" alt="מרוהט" />
+        <span class="icon_text">מרוהט</span>
+    </div>
+
+    <div class="
+        {% if ad.balcony %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/balcony.png' %}" alt="מרפסת" />
+        <span class="icon_text">מרפסת</span>
+    </div>
+
+    <div class="
+        {% if ad.bunker %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/bunker.png' %}" alt='ממ״ד' />
+        <span class="icon_text">ממ״ד</span>
+    </div>
+
+    <div class="
+        {% if ad.storage %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/storage.png' %}" alt="מחסן" />
+        <span class="icon_text">מחסן</span>
+    </div>
+
+    <div class="
+        {% if ad.conditioner %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/conditioner.png' %}" alt="מזגן" />
+        <span class="icon_text">מזגן</span>
+    </div>
+
+    <div class="
+        {% if ad.elevator %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/elevator.png' %}" alt="מעלית" />
+        <span class="icon_text">מעלית</span>
+    </div>
+
+    <div class="
+        {% if ad.water_heater %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/water_heater.png' %}" alt="דוד שמש" />
+        <span class="icon_text">דוד שמש</span>
+    </div>
+
+    <div class="
+        {% if ad.disabled_access %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/disabled_access.png' %}" alt="גישה לנכים" />
+        <span class="icon_text">גישה לנכים</span>
+    </div>
+
+    <div class="
+        {% if ad.exclusive %}
+            icon
+        {% else %}
+            icon icon-gray-mask
+        {% endif %}">
+
+        <img loading="lazy" class="color-invert-mask" src="{% static 'user_ads/icons/exclusive.png' %}" alt="בלעדי" />
+        <span class="icon_text">בלעדי</span>
+    </div>
+    
+</div>

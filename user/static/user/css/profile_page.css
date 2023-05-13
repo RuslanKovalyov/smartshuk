@@ -1,0 +1,242 @@
+h1 {
+    text-align: center;
+    font-size: larger;
+    color: white;
+}
+
+a {
+    text-align: right;
+    direction: rtl;
+    color: rgb(250, 150, 0);
+}
+
+/* ---------- profile menu --------- */
+.profile_menu {
+    text-align: right;
+}
+
+.profile_menu .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown button {
+    background-color: transparent;
+    font-size: 36px;
+    color: white;
+    width: min-content;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown button span.email {
+    color: gray;
+    font-size: 14px;
+}
+
+.profile_menu .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: gray;
+    border: 1px solid #555;
+    border-radius: 4px;
+    min-width: 160px;
+    box-shadow: -5px 5px 10px 0px rgb(50, 50, 25);
+    z-index: 1;
+}
+
+.profile_menu .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: block;
+    filter: blur(0px) !important;
+}
+
+.profile_menu .dropdown-content a:hover {
+    background-color: whitesmoke;
+    color: black;
+}
+
+.profile_menu .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ----------------------- */
+
+
+.profile_ads_list {
+    margin-top: 20px;
+    padding: 5px;
+    text-align: right;
+}
+
+
+
+.profile_ads_list img {
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+    padding: 0px;
+    border: 2px solid #555;
+}
+
+.profile_ads_list button {
+    background-color: red;
+}
+
+.like-item {
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(216, 112, 147, 0.1);
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    text-align: right;
+    max-height: 100px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.like-item img,
+.ad-item img {
+    width: 40px;
+    height: 40px;
+    margin: 2px 8px;
+    padding: 0px;
+    border: 1px solid #555;
+}
+
+.like-item .buttons-container,
+.ad-item .buttons-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Add space between the buttons */
+    margin-right: 8px;
+    /* Add space between the buttons container and the ad text */
+}
+
+.like-item .info-container,
+.ad-item .info-container {
+    padding: 0 0 0 8px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ad-item .date {
+    color: gray;
+    font-size: smaller;
+}
+
+.btn-delete-all-likes,
+.like-item .delete-like,
+.like-item .view-ad-button,
+.ad-item .view-ad-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    height: min-content;
+    width: max-content;
+}
+
+.btn-delete-all-likes,
+.like-item .delete-like {
+    background-color: rgb(200, 0, 0);
+}
+
+.like-item .view-ad-button,
+.ad-item .view-ad-button {
+    background-color: green;
+}
+
+.btn-delete-all-likes:hover,
+.like-item .delete-like:hover {
+    background-color: rgb(150, 0, 0);
+    text-decoration: none;
+}
+
+.like-item .view-ad-button:hover,
+.ad-item .view-ad-button:hover {
+    background-color: rgb(0, 100, 0);
+}
+
+.like-item .delete-like:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+
+
+.like-item .view-ad-button:focus {
+    outline: none;
+}
+
+.profile_ads_list .my_ad {
+    background-color: rgba(128, 128, 128, 0.2);
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.profile_ads_list .ad-bottom-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: right;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.profile_ads_list .ad-bottom-panel button.delete-my-ad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(200, 0, 0);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    height: min-content;
+    width: max-content;
+}
+
+.profile_ads_list .ad-bottom-panel button.delete-my-ad:hover {
+    background-color: rgb(150, 0, 0);
+}
+
+.profile_ads_list .ad-item {
+    max-height: 100%;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, height 0.3s ease-out;
+}
+
+.like-item.collapsing,
+.ad-item.collapsing {
+    max-height: 0;
+    opacity: 0;
+}

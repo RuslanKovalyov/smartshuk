@@ -1,0 +1,86 @@
+{% extends 'modules/user_ads_base.html' %}
+
+{% block main_content %}
+
+    <div class="page_title_top_info">
+        {% block Page_Title_Top_Info%}
+            {% comment %} <h1>This is a page Tatle and/or Top content of Section</h1>
+
+            {% if user.is_authenticated %}
+                <p>{{ user.email }}</p>
+                <br>
+                <a href="/logout/">Log out</a>
+            {% else %}
+                <a class="button" href="/login/?next={{ request.path }}">Log in</a>
+            {% endif %} {% endcomment %}
+        {% endblock Page_Title_Top_Info %}
+    </div>
+
+
+    <div class="ads_container" id="ads_container">
+        {% for ad in ads %}
+            <div class="ad_card">
+
+                    <div class="top_content">
+                        {% block top_content %}
+                            {% comment %} Visible top contact (header) of Single ad. {% endcomment %}
+                        {% endblock top_content %}
+                    </div>
+
+                    <div class="hidden_content">
+                        {% block hidden_content %}
+                            {% comment %} Some hidden content. {% endcomment %}
+                        {% endblock hidden_content %}
+                    </div>
+
+            </div>
+        {% endfor%}
+    </div>
+
+    {% comment %} Heden content opener. (cleckable div) Show hedden block in ads container {% endcomment %}
+    {% comment %} <script>
+        var ads_container = document.getElementById("ads_container");
+        var ads = ads_container.getElementsByClassName("top_content");
+        for (var i = 0; i < ads.length; i++) {
+            ads[i].addEventListener("click", function() {
+
+                if (this.className == "top_content active") {
+                    this.className = "top_content";
+                } else {
+                    this.className = "top_content active";
+                }
+                
+                hidden = this.parentNode.getElementsByClassName("hidden_content")
+                if (hidden[0].className == "hidden_content visible") {
+                    hidden[0].className = "hidden_content";
+                } else{
+                    hidden[0].className = "hidden_content visible";
+                    console.log(hidden[0])
+                }
+            });
+        }
+    </script> {% endcomment %}
+
+    {% include 'modules/pagination.html' %}
+
+    <script>
+        var buttons = document.querySelectorAll(".details_button");
+        buttons.forEach(function(button) {
+          button.addEventListener("click", function(event) {
+            event.preventDefault();
+            var topContent = button.closest(".top_content");
+            var hiddenContent = topContent.nextElementSibling;
+            if (topContent.classList.contains("active")) {
+              topContent.classList.remove("active");
+              hiddenContent.classList.remove("visible");
+              this.innerText = "פרטים";
+            } else {
+              topContent.classList.add("active");
+              hiddenContent.classList.add("visible");
+              this.innerText = "הסתר";
+            }
+            this.classList.toggle("active");
+          });
+        });
+      </script>
+{% endblock main_content %}

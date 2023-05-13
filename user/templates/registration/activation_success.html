@@ -1,0 +1,22 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+	{% comment %} Activation - Success {% endcomment %}
+	הפעלה - הצלחה
+{% endblock title %}
+
+{% block unified_form %}
+{% comment %} <h1>Activation Successful</h1> {% endcomment %}
+<h1>הפעלה מוצלחת</h1>
+
+{% comment %} <p>Great news! Your account has been activated. You can now Log&nbsp;in
+	and start exploring everything our website has to offer.
+</p> {% endcomment %}
+<p>חדשות טובות! החשבון שלך הופעל. עכשיו אפשר להתחבר
+	ולהתחיל לחקור את כל התכונות והאפשרויות שיש לאתר שלנו להציע.
+</p>
+
+{% comment %} <a class="button" href="/login">Try</a> {% endcomment %}
+<a class="button" href="/login">נסו</a>
+
+{% endblock unified_form %}

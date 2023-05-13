@@ -1,0 +1,249 @@
+.ads_container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 20px;
+    background-color: black;
+    padding: 0px;
+}
+
+.ad_card {
+    height: min-content;
+    min-height: 50px;
+    text-align: right;
+    background-color: #1115;
+    color: white;
+    font-size: 24px;
+    font-family: Georgia;
+    margin-bottom: 30px;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.ad_card:hover {
+    background-color: #5555;
+}
+
+.ad_card img {
+    background-color: gray;
+    border: none;
+    border-radius: 5px;
+    margin: 0px;
+    margin-left: 20px;
+    float: right;
+    width: 160px;
+    height: 120px;
+    object-fit: cover;
+    /* Scale the image to cover the available space while maintaining aspect ratio */
+}
+
+.ad_card .top_content {
+    position: relative;
+    display: flex;
+    min-height: 120px;
+}
+
+.ad_card .top_content.active {
+    background-color: #5555;
+    border-radius: 5px 5px 0px 0px;
+    box-shadow: 0px 2px 10px rgba(200, 200, 200, 0.1);
+}
+
+/* place main photo with album photos */
+.top_content.active .image-container,
+.top_content.active .text_on_img {
+    opacity: 0;
+    width: 5px;
+    transition: opacity 0.3s, width 0.3s;
+}
+
+.top_content .image-container,
+.top_content .text_on_img {
+    opacity: 1;
+    transition: opacity 0.3s, width 0.3s;
+}
+
+
+.ad_card .top_content .text_on_img {
+    position: absolute;
+    background-color: #0005;
+    border-radius: 5px;
+    direction: ltr;
+    bottom: 0;
+    right: 0;
+    color: #fffa;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px;
+    margin: 5px;
+}
+
+.ad_card .top_content .info {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.ad_card .top_content .info .important_text {
+    color: wheat;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.ad_card .hidden_content {
+    position: relative;
+    background-color: #5555;
+    opacity: 0;
+    max-height: 0;
+    /* Add this line for collapse effect */
+    margin: 0px;
+    padding: 0px;
+    visibility: hidden;
+    overflow: hidden;
+    /* Add this line to hide content when collapsed */
+    transition: opacity 0.3s ease, visibility 0.3s ease, max-height 0.3s ease;
+    /* Add max-height to the transition */
+}
+
+.ad_card .hidden_content.visible {
+    visibility: visible;
+    opacity: 1;
+    max-height: 1000px;
+    /* Set an appropriate max-height when expanded */
+}
+
+.ad_card .hidden_content .ad_title {
+    color: wheat;
+    font-size: 20px;
+}
+
+.ad_card .hidden_content .gallery {
+    display: flex;
+    height: auto;
+    margin: 20px 0px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* hide scrollbar for Firefox */
+}
+
+.ad_action_buttons_box {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.ad_action_buttons_box button,
+.ad_action_buttons_box .button {
+    position: relative;
+    margin: 0px;
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #555;
+    transition: background-color 0.3s ease;
+
+}
+
+.active .ad_action_buttons_box button,
+.active .ad_action_buttons_box .button,
+.active .ad_action_buttons_box button:hover,
+.active .ad_action_buttons_box .button:hover {
+    background-color: #111;
+}
+
+.ad_action_buttons_box button:hover,
+.ad_action_buttons_box .button:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+.ad_action_buttons_box button:active,
+.ad_action_buttons_box .button:active {
+    background-color: rgb(150, 150, 150);
+}
+
+.ad_action_buttons_box button.like.liked,
+.ad_action_buttons_box .button.like.liked {
+    color: red;
+}
+
+
+
+.ad_card .hidden_content .gallery::-webkit-scrollbar {
+    display: none;
+    /* hide scrollbar for WebKit browsers */
+}
+
+.ad_card .hidden_content .text {
+    font-size: 20px;
+}
+
+.ad_card .fly_button a {
+    position: sticky;
+    bottom: 100px;
+    text-align: center;
+    color: black;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 80px;
+}
+
+.ad_card .visible {
+    border-radius: 0px 0px 5px 5px;
+    opacity: 1;
+    padding: 10px;
+    visibility: visible;
+    height: auto;
+}
+
+@media (max-width: 640px) {
+
+    .ads_container {
+        margin: 12px auto;
+        gap: 12px;
+    }
+
+    .ad_card {
+        font-size: 16px;
+    }
+
+    .ad_card img {
+        width: 120px;
+        height: 90px;
+        margin-left: 15px;
+    }
+
+    .ad_card .top_content {
+        min-height: 90px;
+    }
+
+    .ad_card .top_content .info {
+        padding: 0px;
+        font-size: 16px;
+    }
+
+    .ad_card .top_content .info p {
+        line-height: 1.2;
+    }
+
+    .ad_card .top_content .info .important_text {
+        font-size: 16px;
+    }
+
+    .ad_card .visible {
+        padding: 5px;
+    }
+
+    .ad_card .fly_button a {
+        position: sticky;
+        bottom: 20px;
+    }
+}

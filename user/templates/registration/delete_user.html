@@ -1,0 +1,29 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Delete Account {% endcomment %}
+    מחיקת חשבון
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Delete Account</h1> {% endcomment %}
+    <h1>מחיקת חשבון</h1>
+    <p class="alert">
+        {% comment %} Are you sure you want to delete your account? This action cannot be undone. {% endcomment %}
+        האם את/ה בטוח שברצונך למחוק את החשבון שלך? פעולה זו לא ניתנת לביטול!
+    </p>
+    <form method="post">
+        {% csrf_token %}
+
+        {% comment %} <label for="password">Enter your password to confirm:</label> {% endcomment %}
+        <label for="password">הזן את הסיסמה שלך כדי לאשר:</label>
+
+        <input type="password" name="password" id="password" required>
+
+        {% comment %} <button type="submit">Delete Account</button> {% endcomment %}
+        <button type="submit">מחיקת חשבון</button>
+        <br>
+        <a href="{% url 'user_profile' %}">ביטול</a>
+
+    </form>
+{% endblock unified_form %}

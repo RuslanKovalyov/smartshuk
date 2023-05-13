@@ -1,0 +1,31 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Password {% endcomment %}
+    סיסמה
+{% endblock title %}
+
+{% block unified_form %}
+{% comment %} <h1>Change Password</h1> {% endcomment %}
+<h1>שינוי סיסמה</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {% comment %} {{ form.as_p }} {% endcomment %}
+    {% comment %} <input type="password" name="{{ form.old_password.name }}" autocomplete="current-password" autofocus required id="{{ form.password.id_for_label }}" placeholder="Old password"> {% endcomment %}
+    <input type="password" name="{{ form.old_password.name }}" autocomplete="current-password" autofocus required id="{{ form.password.id_for_label }}" placeholder="סיסמה ישנה">
+    {{ form.old_password.errors }}
+   
+    {% comment %} <input type="password" name="{{ form.new_password1.name }}" required id="{{ form.new_password1.id_for_label }}" placeholder="New password"> {% endcomment %}
+    <input type="password" name="{{ form.new_password1.name }}" required id="{{ form.new_password1.id_for_label }}" placeholder="סיסמה חדשה">
+    {{ form.new_password1.errors }}
+
+    {% comment %} <input type="password" name="{{ form.new_password2.name }}" required id="{{ form.new_password2.id_for_label }}" placeholder="New Password confirmation"> {% endcomment %}
+    <input type="password" name="{{ form.new_password2.name }}" required id="{{ form.new_password2.id_for_label }}" placeholder="אימות סיסמה חדשה">
+    {{ form.new_password2.errors }}
+
+    {% comment %} <button type="submit">Save new password</button> {% endcomment %}
+    <button type="submit">שמירת סיסמה חדשה</button>
+</form>
+
+{% endblock unified_form %}

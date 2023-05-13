@@ -1,0 +1,23 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Password {% endcomment %}
+    סיסמה
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Password reset</h1> {% endcomment %}
+    <h1>איפוס סיסמה</h1>
+
+    {% comment %} <p>Forgotten your password? Enter your email address below, and we’ll email instructions for setting a new one.</p> {% endcomment %}
+    <p>שכחתם את הסיסמה שלכם? הזינו את כתובת המייל שלכם למטה ואנחנו נשלח לכם הוראות להגדרת סיסמה חדשה.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {% comment %} <input type="email" name="email" autocomplete="email" maxlength="254" autofocus required id="id_email" placeholder="Email address"> {% endcomment %}
+        <input type="email" name="email" autocomplete="email" maxlength="254" autofocus required id="id_email" placeholder="כתובת אימייל">
+        
+        {% comment %} <button type="submit">Reset my password</button> {% endcomment %}
+        <button type="submit">אפס את הסיסמה שלי</button>
+
+    </form>
+{% endblock unified_form %}

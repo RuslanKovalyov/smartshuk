@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    {% comment %} Google tag (gtag.js) {% endcomment %}
+    {% include 'modules/google_analytics_tag.html' %}
+
+    {% include 'modules/head_set.html' %}
+	<title>
+        Smart Shuk |
+    {% block title %}
+        User Registrar
+    {% endblock title %}
+    </title>
+    <link rel="icon" href="{% static 'main/icons/title-ico.png' %}" type="image/png">
+
+</head>
+<body>
+    {% include 'modules/header.html' %}
+    <main>
+        <div class="UserRegistrarUnified_base_Module">
+            <div class="inner">
+                {% block unified_form %}
+                    {% comment %}   # some unified registrar block: login, sign up, log out, etc... {% endcomment %}
+                {% endblock unified_form %}
+            </div>
+        </div>
+    </main>
+    {% include 'modules/footer.html' %}
+    {% include 'modules/accessible_menu.html' %}
+</body>
+</html>

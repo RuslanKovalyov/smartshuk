@@ -1,0 +1,27 @@
+{% extends 'modules/user_registrar_base.html' %}
+
+{% block title %}
+    {% comment %} Activation {% endcomment %}
+    הפעלה
+{% endblock title %}
+
+{% block unified_form %}
+    {% comment %} <h1>Activate Your Account</h1> {% endcomment %}
+    <h1>הפעלת החשבון שלך</h1>
+
+    {% comment %} <p>Thank you for signing up! To complete the registration process,
+        we've sent an activation link to your email address.
+        Simply click on the link to activate your account,
+        and then you'll be able to log&nbsp;in
+        and fully experience all of the features and benefits our platform has to offer.
+    </p> {% endcomment %}
+    <p>תודה על ההרשמה! כדי להשלים את תהליך הרישום,
+        שלחנו קישור הפעלה לכתובת המייל שלך.
+        פשוט לחץ על הקישור כדי להפעיל את החשבון שלך,
+        ואז תוכל להתחבר
+        ולחוות את כל התכונות והיתרונות שהפלטפורמה שלנו מציעה.
+        </p>
+    {% comment %} <a class="button" href="/">Ok</a> {% endcomment %}
+    <a class="button" href="/">הבנתי</a>
+
+{% endblock unified_form %}

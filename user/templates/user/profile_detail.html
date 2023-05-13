@@ -1,0 +1,16 @@
+<h1>Profile</h1>
+<p>Detailed profile information by ID.</p>
+<P> Hi, {{ user.email }}</p><br>
+<a href="/">Home</a><br>
+<a href="/logout/">Logout</a><br>
+
+<h2>Ads of user</h2>
+{% if real_estates %}
+    <ul>
+        {% for real_estate in real_estates %}
+            <li>{{ real_estate.category }} - {{ real_estate.deal_type }} - {{ real_estate.title }} - {{ real_estate.date }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No ads found.</p>
+{% endif %}

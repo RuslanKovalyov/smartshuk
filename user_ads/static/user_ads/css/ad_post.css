@@ -1,0 +1,92 @@
+h1 {
+    text-align: center;
+    margin: 20px 0px;
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+    color: wheat;
+}
+
+label {
+    width: 200px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 20px 10px 5px 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select,
+input[type="date"],
+input[type="file"] {
+    min-height: 40px;
+    width: 98%;
+    margin-inline: 1%;
+    padding: 0px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    -webkit-appearance: none;
+}
+
+input[name="phone"] {
+    direction: ltr !important;
+    text-align: center !important;
+}
+
+input[type="number"] {
+    width: 70px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#new-ad-submit-btn {
+    width: 98%;
+    margin: 20px 1%;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: rgb(255 150 0);
+    color: black;
+    padding: 8px 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+#new-ad-submit-btn:hover {
+    background-color: #333;
+    border-color: rgb(255 150 0);
+    color: rgb(255 150 0);
+    cursor: pointer;
+}
+
+#new-ad-submit-btn:active {
+    background-color: #777;
+}
+
+#new-ad-submit-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#new-ad-submit-btn .spinner-border {
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+#new-ad-submit-btn .spinner-border:not(.d-none) {
+    display: inline-block;
+}

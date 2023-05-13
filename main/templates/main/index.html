@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    {% comment %} Google tag (gtag.js) {% endcomment %}
+    {% include 'modules/google_analytics_tag.html' %}
+
+    {% include 'modules/head_set.html' %}
+    <title>Document</title>
+</head>
+<body>
+    {% include 'modules/header.html' %}
+    <main>
+        <h3>
+            Smartshuk home page, main content.
+        </h3>
+        
+        {% if user.is_authenticated %}
+            Hi, {{ user.email }}<br>
+            <a href="/profile/">Profile</a>
+            <br>
+            <a href="/logout/">Log out</a>
+            <br>
+            <a href="/password_change/">Change Password</a>
+        {% else %} 
+            <a href="/login/?next={{ request.path }}">Log in</a>
+        {% endif %}
+        <br>
+
+    </main>
+    {% include 'modules/footer.html' %}
+</body>
+</html>
