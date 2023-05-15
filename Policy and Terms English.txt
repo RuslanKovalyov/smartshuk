@@ -187,7 +187,13 @@ By using our site and services, users agree to waive any claims or demands again
 //Images provided by iStock under their Standard License (https://www.istockphoto.com/legal/license-agreement).
 
 33. Third-Party Resources
-Our website may use resources provided by third-party services such as The Central Bureau of Statistics (CBS), iStock photos, Google Analytics and Google reCAPTCHA by Google, Inc. We acknowledge the use of these resources and thank their creators for providing them. The following attribution statements and links to licenses or terms of use apply:
+Our website may use resources provided by third-party services such as The Central Bureau of Statistics (CBS), iStock photos, Leaflet, OpenStreetMap, Nominatim, Google Analytics and Google reCAPTCHA by Google, Inc. We acknowledge the use of these resources and thank their creators for providing them. The following attribution statements and links to licenses or terms of use apply:
+
+Our website uses the Leaflet library for displaying maps. Leaflet is a JavaScript library for interactive maps and is distributed under the BSD 2-Clause license (https://github.com/Leaflet/Leaflet/blob/master/LICENSE). For more information about Leaflet, please visit their homepage (https://leafletjs.com/).
+
+The maps on our website are based on data provided by OpenStreetMap. OpenStreetMap is an open-source project that provides free map data. The map data is distributed under the Open Data Commons Open Database License (ODbL) (https://opendatacommons.org/licenses/odbl/). For more information about OpenStreetMap, please visit their homepage (https://www.openstreetmap.org/).
+
+Our website uses the Nominatim service for the geocoding process. Nominatim is a free access to the geocoding service of OpenStreetMap. In order to comply with the service's regulations, we make no more than one request per second and use a proxy to reduce requests to the server. For more information about Nominatim, please visit their homepage (https://nominatim.org/).
 
 Statistical and Geographical data provided by the Central Bureau of Statistics (CBS) under their Open License for information (https://www.cbs.gov.il/en/Pages/Enduser-license.aspx). Data was downloaded on 28.04.2023 and has been modified.
 Link to CBS data: https://www.cbs.gov.il

@@ -5,9 +5,10 @@ from main.views import page_404
 
 urlpatterns = [
     path('admin-mode/', admin.site.urls),
-    path('',include('main.urls')),
-    path('',include('user.urls')),
-    path('',include('user_ads.urls')),
+    path('', include('main.urls')),
+    path('', include('user.urls')),
+    path('', include('user_ads.urls')),
+    path('', include('mapping_app.urls')),
     path('404/', page_404, name='404'), # for debag mode test by enter www.site.com/404
 ]
 handler404 = 'main.views.handler404'

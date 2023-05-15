@@ -123,12 +123,12 @@
     </div>
                         
     <div class="info_box_big">
-        <span class="box_title">
+        {% comment %} <span class="box_title">
             <p>
                 כותרת
             </P>
             <br>
-        </span>
+        </span> {% endcomment %}
 
         <p class="ad_title">{{ ad.title}}</p>
     </div>
@@ -157,15 +157,34 @@
     
     <div class="info_box_big">
         <span class="box_title">
-            <p>
-                צור קשר
-            </P>
+            <p>צור קשר</P>
             <br>
         </span>
 
-    <span class="fly_button"><a href="tel:{{ ad.phone }}">tel: {{ ad.phone}}</a></span>
+        <span class="fly_button"><a href="tel:{{ ad.phone }}">tel: {{ ad.phone}}</a></span>
+        <br>
+        <br>
+
+        <span style="display: flex; justify-content: center; align-items: center; text-align: center;"> {{ ad.city}}, {{ ad.address }}</span>
+
+        {% with ad.city|urlencode as encoded_city %}
+        {% with ad.address|urlencode as encoded_address %}
+        <iframe src="{% url 'map_popup' %}?city={{ encoded_city }}&address={{ encoded_address }}" width="100%" height="420" frameborder="0" scrolling="no" loading="lazy"></iframe>
+        <script>
+            console.log("{{ encoded_city }}");
+        </script>
+        {% endwith %}
+        {% endwith %}
+
+        <span style="display: flex; justify-content: center; align-items: center; text-align: center;">
+            &nbsp;הסתכל ב&nbsp;
+            <br>
+            <a href="https://www.google.com/maps/search/?api=1&query={{ ad.city}}, {{ ad.address }}" target="_blank">Google Maps</a>
+            &nbsp;|&nbsp;
+            <a href="http://maps.apple.com/?q={{ ad.city}}, {{ ad.address }}" target="_blank">Apple Maps</a>
+        </span>
+
     </div>
-  
 
 {% endblock hidden_content %}
 

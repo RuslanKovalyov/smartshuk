@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מפה</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <link rel="stylesheet" href="{% static 'mapping_app/css/mapping-popup.css' %}">
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script>
+    // Replace the Nominatim API URL with Django proxy view URL
+    var geocodeUrl = '/geocode_proxy/';
+
+    function geocodeAddress(address, callback) {
+        fetch(geocodeUrl + '?query=' + encodeURIComponent(address))
+            .then(function(response) {
+                if (response.status === 429) {
+                    throw new Error('Too Many Requests');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                console.log('Geocoding data:', data);
+                if (data && data.length > 0) {
+                    callback(data[0]);
+                } else {
+                    callback(null);
+                }
+            })
+            .catch(function(error) {
+                console.error('Error fetching geocoding data:', error);
+                callback(null);
+            });
+    }
+
+    function showMap(geoData) {
+        console.log('Geo data:', geoData);
+        if (geoData) {
+            const lat = parseFloat(geoData.lat);
+            const lon = parseFloat(geoData.lon);
+
+            const map = L.map('map').setView([lat, lon], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19,
+            }).addTo(map);
+
+            const marker = L.marker([lat, lon]).addTo(map);
+        } else {
+            {% comment %} alert('כתובת לא נמצאה או שגויה'); {% endcomment %}
+        }
+    }
+
+    const address = '{{ address }}';
+    geocodeAddress(address, showMap);
+</script>
+
+</body>
+</html>
+

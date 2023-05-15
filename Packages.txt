@@ -25,3 +25,4 @@ pip install python-Levenshtein (The GPL v2 License requires you to distribute yo
 # https://www.google.com/recaptcha/admin/create
 pip install captcha ?
 pip install django-recaptcha
+pip install requests

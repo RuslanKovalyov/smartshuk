@@ -110,7 +110,7 @@
 .ad_card .hidden_content.visible {
     visibility: visible;
     opacity: 1;
-    max-height: 1000px;
+    max-height: 2500px;
     /* Set an appropriate max-height when expanded */
 }
 

@@ -18,13 +18,18 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEV_MODE = True
 DEBUG = True
 
+#for map_popup shown in iframe
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 
-if DEV_MODE:
-    CACHE_TTL = 0
-else:
-    CACHE_TTL = 10 # seconds
+
+
+# if DEV_MODE:
+#     CACHE_TTL = 0
+# else:
+CACHE_TTL = 10 # seconds
+CACHE_TTL_LEAFLET_MAP = 60 * 60 * 24 * 10 # 10days
 
 
 ALLOWED_HOSTS = ['localhost', 'smartshuk.co.il', 'www.smartshuk.co.il', 'dev.smartshuk.co.il']
@@ -43,6 +48,7 @@ INSTALLED_APPS = [
     'user_ads.apps.UserAdsConfig',
     'storages', #'storages', *It's not necessary. This library is not technically a django app.
     'captcha',
+    'mapping_app',
 ]
 
 # Google reCAPTCHA 
