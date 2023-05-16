@@ -121,16 +121,21 @@
             </span>
         {% endfor %}
     </div>
-                        
-    <div class="info_box_big">
-        {% comment %} <span class="box_title">
-            <p>
-                כותרת
-            </P>
-            <br>
-        </span> {% endcomment %}
 
+    <div class="info_box_big">
         <p class="ad_title">{{ ad.title}}</p>
+        <br>
+        <p>
+            <small>
+                {% load tz %}
+                {% now "Y-m-d" as current_date %}
+                {% if current_date >= ad.CheckIn_date_from|date:"d m Y" %}
+                    כניסה מיידית
+                {% else %}
+                    תאריך כניסה - {{ ad.CheckIn_date_from|date:"d בM Y" }}
+                {% endif %}
+            </small>
+        </p>
     </div>
 
     <div class="info_box_big">
@@ -164,26 +169,11 @@
         <span class="fly_button"><a href="tel:{{ ad.phone }}">tel: {{ ad.phone}}</a></span>
         <br>
         <br>
-
-        <span style="display: flex; justify-content: center; align-items: center; text-align: center;"> {{ ad.city}}, {{ ad.address }}</span>
-
         {% with ad.city|urlencode as encoded_city %}
         {% with ad.address|urlencode as encoded_address %}
-        <iframe src="{% url 'map_popup' %}?city={{ encoded_city }}&address={{ encoded_address }}" width="100%" height="420" frameborder="0" scrolling="no" loading="lazy"></iframe>
-        <script>
-            console.log("{{ encoded_city }}");
-        </script>
+        <iframe src="{% url 'map_popup' %}?city={{ encoded_city }}&address={{ encoded_address }}" width="100%" height="400" frameborder="0" scrolling="no" loading="lazy"></iframe>
         {% endwith %}
         {% endwith %}
-
-        <span style="display: flex; justify-content: center; align-items: center; text-align: center;">
-            &nbsp;הסתכל ב&nbsp;
-            <br>
-            <a href="https://www.google.com/maps/search/?api=1&query={{ ad.city}}, {{ ad.address }}" target="_blank">Google Maps</a>
-            &nbsp;|&nbsp;
-            <a href="http://maps.apple.com/?q={{ ad.city}}, {{ ad.address }}" target="_blank">Apple Maps</a>
-        </span>
-
     </div>
 
 {% endblock hidden_content %}
