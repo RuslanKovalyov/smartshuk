@@ -9,7 +9,21 @@
   <link rel="stylesheet" href="{% static 'mapping_app/css/mapping-popup.css' %}">
 </head>
 <body>
-  <div id="map"></div>
+
+
+    <p> {{ address }}</p>
+
+    <div id="map"></div>
+
+    <p>
+        <a href="http://maps.apple.com/?q={{ address }}" target="_blank">Apple Maps</a>
+            &nbsp;|&nbsp;
+        <a href="https://www.google.com/maps/search/?api=1&query={{ address }}" target="_blank">Google Maps</a>
+        &nbsp;הסתכל ב&nbsp;
+    </p>
+
+
+  
 
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script>
@@ -44,7 +58,7 @@
             const lat = parseFloat(geoData.lat);
             const lon = parseFloat(geoData.lon);
 
-            const map = L.map('map').setView([lat, lon], 15);
+            const map = L.map('map').setView([lat, lon], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
