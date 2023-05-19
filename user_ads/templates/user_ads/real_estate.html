@@ -76,12 +76,16 @@
                         {{ ad.city }}, {{ ad.address }}
                         <br>
 
-                        {% if ad.number_floors_in_house > 1 %}
+                        {{ ad.deal_type }}
+                        <br>
+
+                        {% comment %} flors in house {% endcomment %}
+                        {% comment %} {% if ad.number_floors_in_house > 1 %}
                             בניין&nbsp;בן&nbsp;{{ ad.number_floors_in_house }}&nbsp;קומות
                         {% else %}
                             בניין&nbsp;חד&nbsp;קומתי
                         {% endif%}
-                        <br>
+                        <br> {% endcomment %}
 
                         {% if ad.cost > 0 %}
                             מחיר <span class="important_text">{{ ad.cost}}</span> ש״ח
