@@ -5,7 +5,16 @@ cache/
 .DS_Store
 codebase resources/
 commands.txt
+db.sqlite3
+_Third-Party Data/
+locale/
+About/
+Packages.txt/
+Policy and Terms English.txt
+Policy and Terms Hebrew.txt
 to-do.txt
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
