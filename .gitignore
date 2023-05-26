@@ -2,6 +2,7 @@
 main/static/main/default-photos/
 */media/user-uploads/
 cache/
+.vscode/
 .DS_Store
 codebase resources/
 commands.txt
