@@ -1,0 +1,7 @@
+pip install django-storages
+pip install django-simple-captcha
+pip install django-location-field
+pip install six
+                pillow
+
+
