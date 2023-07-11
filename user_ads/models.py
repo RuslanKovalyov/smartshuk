@@ -101,7 +101,7 @@ class Ad(models.Model):
     #chack box on Delete not work!!! add signals
     def delete(self, *args, **kwargs):
         #delete avatar
-        print(f"Delete: avatar: {self.picture}")
+        # print(f"Delete: avatar: {self.picture}")
         try:
             # Delete the object from S3
             key = f'{self.picture}'
@@ -256,19 +256,19 @@ class RealEstatePicture(models.Model):
         super().save(*args, **kwargs)
     
     def delete(self, *args, **kwargs):
-        print("delete picture()")
+        # print("delete picture()")
         try:
             # Delete the object from S3
             key = f'{self.picture}'
             if default_storage.exists(key):
                 default_storage.delete(key)
-                print("deleted from S3")
+                # print("deleted from S3")
             else:
-                print("not found in S3")
+                # print("not found in S3")
                 pass
                     
         except Exception as e:
-            print(f"Exception while deleting the picture: {e}")
+            # print(f"Exception while deleting the picture: {e}")
             pass
         super().delete(*args, **kwargs)
 
