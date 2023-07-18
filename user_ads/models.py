@@ -338,7 +338,8 @@ class Brand(models.Model): # for all Searching and Filtering (New and SecondHand
 
 class SecondHandCategory(models.Model):
     # list of SecondHand categories (electronics, furniture, etc). Only for Admin Panel
-    name = models.CharField(verbose_name='SecondHand category', max_length=100)
+
+    name = models.CharField(verbose_name='SecondHand category', max_length=100, unique=True)    
     singular_name = models.CharField(verbose_name='SecondHand singular name of category', max_length=100, blank=True)
 
     class Meta:
@@ -351,8 +352,9 @@ class SecondHandCategory(models.Model):
 
 class SecondHandSubCategory(models.Model):
     # list of SecondHand sub-categories (TV, computer, etc). Only for Admin Panel
+
     category = models.ForeignKey(SecondHandCategory, verbose_name='SecondHand category', on_delete=models.CASCADE)
-    name = models.CharField(verbose_name='SecondHand sub-category', max_length=100)
+    name = models.CharField(verbose_name='SecondHand sub-category', max_length=100, unique=True)
     singular_name = models.CharField(verbose_name='SecondHand singular name of sub-category', max_length=100, blank=True)
 
     class Meta:
@@ -365,8 +367,9 @@ class SecondHandSubCategory(models.Model):
 
 class SecondHandType(models.Model):
     # list of SecondHand types (black and white TV, color TV, etc). Only for Admin Panel
+
     sub_category = models.ForeignKey(SecondHandSubCategory, verbose_name='SecondHand sub-category', on_delete=models.CASCADE)
-    name = models.CharField(verbose_name='SecondHand type', max_length=100)
+    name = models.CharField(verbose_name='SecondHand type', max_length=100, unique=True)
     singular_name = models.CharField(verbose_name='SecondHand singular name of type', max_length=100, blank=True)
 
     class Meta:

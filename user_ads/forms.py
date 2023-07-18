@@ -213,6 +213,14 @@ class SecondHand_PostingForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 class SecondHand_SearchForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['category'].to_field_name = 'name'
+        self.fields['sub_category'].to_field_name = 'name'
+        self.fields['type'].to_field_name = 'name'
+        
     template_name = "user_ads/form_snippets/search_forms/secondhand_form.html"
 
     category = forms.ModelChoiceField(
