@@ -1,0 +1,71 @@
+{% extends 'modules/user_ads_base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'user_ads/css/ad_post.css' %}" type="text/css">
+{% endblock extra_css %}
+
+{% block main_content %}
+  {% comment %} <h1>Create a new post</h1> {% endcomment %}
+  <h1>מודעה חדשה</h1>
+  <form method="POST" action="{% url 'secondhand_post' %}" enctype="multipart/form-data" onsubmit="disableButton()">
+
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div class="alert">
+        {% comment %} <strong>Error:</strong> Please correct the errors below. {% endcomment %}
+        .<strong>שגיאה:</strong> נא לתקן את השגיאות למטה
+      </div>
+    {% endif %}
+
+    {{ form.as_p }}
+    <datalist id="city_list">
+      {% for city in city_list %}
+          <option value="{{ city.name }}">
+      {% endfor %}
+    </datalist>
+    <script>
+        var input = document.getElementById('id_city');
+        var datalist = document.getElementById('city_list');
+        var options = datalist.getElementsByTagName('option');
+        input.addEventListener('input', function() {
+        // Hide the dropdown list if there are no matching options
+        var matching_options = Array.from(options).filter(function(option) {
+            return option.value.indexOf(input.value) === 0;
+        });
+
+        datalist.style.overflowY = 'scroll';
+        datalist.style.maxHeight = '100px';
+
+        if (matching_options.length === 0) {
+            datalist.style.display = 'none';
+            return;
+        }
+        // Show the dropdown list and highlight the first matching option
+        datalist.style.display = 'block';
+        matching_options[0].selected = true;
+        });
+    </script>
+
+    <button type="submit" id="new-ad-submit-btn">
+      <span>לפרסם</span>
+      <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+    </button>
+
+  </form>
+
+
+  <script>
+    {% comment %} Disable the submit button after clicking it, to prevent double-clicking {% endcomment %}
+    function disableButton() {
+      var submitBtn = document.getElementById("new-ad-submit-btn");
+      submitBtn.disabled = true;
+      submitBtn.querySelector("span").classList.add("d-none");
+      submitBtn.querySelector("span").innerHTML = "מעבד...";
+      submitBtn.querySelector(".spinner-border").classList.remove("d-none");
+    }
+  </script>
+  
+{% endblock main_content %}

@@ -141,6 +141,10 @@ a {
     font-size: smaller;
 }
 
+.btn-delete-all-likes{
+    margin: 0 auto 0 0;
+}
+
 .btn-delete-all-likes,
 .like-item .delete-like,
 .like-item .view-ad-button,
@@ -190,6 +194,9 @@ a {
 
 .like-item .view-ad-button:focus {
     outline: none;
+}
+.profile_ads_list{
+    direction: ltr;
 }
 
 .profile_ads_list .my_ad {

@@ -1,0 +1,196 @@
+{% extends 'modules/user_ads_stack_visualizer.html' %}
+
+{% load static %}
+
+{% block Page_Title_Top_Info %}
+
+                    {% include 'user_ads/ad_sections_titles.html' %}
+
+                    {% comment %} <form  method="post" action="?category_id={{ form.category.value }}"> {% endcomment %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                    </form>
+
+                        {% comment %} not ready {% endcomment %}
+                        <datalist id="city_list">
+                            {% for city in city_list %}
+                                <option value="{{ city.name }}">
+                            {% endfor %}
+                        </datalist>
+                        <script>
+                            var input = document.getElementById('id_city');
+                            var datalist = document.getElementById('city_list');
+                            var options = datalist.getElementsByTagName('option');
+                            input.addEventListener('input', function() {
+                            // Hide the dropdown list if there are no matching options
+                            var matching_options = Array.from(options).filter(function(option) {
+                                return option.value.indexOf(input.value) === 0;
+                            });
+                            if (matching_options.length === 0) {
+                                datalist.style.display = 'none';
+                                return;
+                            }
+                            // Show the dropdown list and highlight the first matching option
+                            datalist.style.display = 'block';
+                            matching_options[0].selected = true;
+                            });
+                        </script>
+                    
+{% endblock Page_Title_Top_Info %}
+
+{% block top_content %}
+    <div class="image-container" data-description="{{ ad.sub_category }}, {{ ad.type}} ב{{ ad.city }}">
+        <img class="opener" loading="lazy"  alt="תמונה" src="{% if ad.picture.url %}{{ ad.picture.url }}{% else %}{% static "main/default-photos/ad-main-img.jpg" %}{% endif %}">
+    </div>
+    {% if ad.pictures and ad.pictures.all.count > 0 %}
+        <div class="text_on_img">+{{ ad.pictures.all|length }}</div>
+    {% endif %}
+
+    <div class="info">
+        <p>
+            {% if ad.sub_category.singular_name %}
+                {{ ad.sub_category.singular_name }}
+            {% else %}
+                {{ ad.sub_category }}
+            {% endif %}
+
+            {{ ad.title}}
+            <br>
+            {{ ad.address }} {{ ad.city }}
+            <br>
+
+            {% if ad.cost > 0 %}
+                מחיר <span class="important_text">{{ ad.cost}}</span> ש״ח
+            {% elif ad.cost == 0 %}
+                {% comment %} gratis {% endcomment %}
+                <span class="important_text">חינם</span>
+            {% elif ad.cost == -1 %}
+                {% comment %} auction {% endcomment %}
+                <span class="important_text">מכירה פומבית</span>
+            {% elif ad.cost == -2 %}
+                {% comment %} not specified {% endcomment %}
+                מחיר <span class="important_text">לא מוגדר</span>
+            {% else %}
+                {% comment %} incorrect value {% endcomment %}
+                מחיר <span class="important_text">ערך שגוי</span>
+            {% endif %}
+        </p>
+    </div>
+    {% block buttons %}
+        <div class="ad_action_buttons_box">
+            <button class="details_button">פרטים</button>
+            {% if user.is_authenticated %}
+                <button class="like" data-secondhand-id="{{ ad.id }}">&#9825;</button>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}" class="button">&#9825;</a>
+            {% endif %}
+        </div>
+    {% endblock buttons %}
+{% endblock top_content %}
+
+{% block hidden_content %}
+    <div class="gallery">
+        {% block main_picture %}
+            <img class="opener" loading="lazy"  alt="תמונה" src="{% if ad.picture.url %}{{ ad.picture.url }}{% else %}{% static "main/default-photos/ad-main-img.jpg" %}{% endif %}">
+        {% endblock main_picture %}
+        {% for picture in ad.pictures.all %}
+            <span class="image-container" data-description="{{ ad.sub_category }} ל{{ ad.type}} ב{{ ad.city }}">
+                <img class="opener" loading="lazy" src="{{ picture.picture.url }}" alt="תמונה">
+            </span>
+        {% endfor %}
+    </div>
+
+    <div class="info_box_big">
+        <span class="box_title">
+            <p>
+                תיאור
+            </P>
+            <br>
+        </span>
+
+        <p>{{ ad.description}}</p>
+    </div>
+
+    <div class="info_box_big">
+        <span class="box_title">
+            <p>צור קשר</P>
+            <br>
+        </span>
+
+        <span class="fly_button"><a href="tel:{{ ad.phone }}">tel: {{ ad.phone}}</a></span>
+        <br>
+        <br>
+        {% with ad.city|urlencode as encoded_city %}
+        {% with ad.address|urlencode as encoded_address %}
+        <iframe src="{% url 'map_popup' %}?city={{ encoded_city }}&address={{ encoded_address }}" width="100%" height="400" frameborder="0" scrolling="no" loading="lazy"></iframe>
+        {% endwith %}
+        {% endwith %}
+    </div>
+    
+{% endblock hidden_content %}
+
+{% block extra_js %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.like');
+            likeButtons.forEach(function(likeButton) {
+                likeButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+        
+                    // Disable the like button
+                    likeButton.disabled = true;
+        
+                    const ad_id = likeButton.dataset.secondhandId;
+        
+                    fetch(`/secondhand/like/${ad_id}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.created) {
+                            likeButton.classList.add('liked');
+                        } else {
+                            likeButton.classList.remove('liked');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        // Enable the like button after the response is received
+                        likeButton.disabled = false;
+                    });
+                });
+            });
+        });    
+    </script>
+
+    {% if user.is_authenticated %}
+    {% comment %} Check for each button if is already Liked in sepatate request (because of cached page), then makerk them {% endcomment %}
+        <script>
+            const likedSecondHandIdsUrl = '/secondhand/liked_secondhand_ids_json/';
+
+            fetch(likedSecondHandIdsUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const likedSecondHandIds = data.liked_secondhand_ids;
+                    likedSecondHandIds.forEach(function(ad_id) {
+                        const button = document.querySelector(`button[data-secondhand-id="${ad_id}"]`);
+                        if (button) {
+                            button.classList.add('liked');
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });    
+        </script>
+    {% endif %}
+
+{% endblock extra_js %}

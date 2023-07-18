@@ -107,6 +107,8 @@ header {
 }
 
 main {
+    direction: rtl;
+    text-align: right;
     background-color: black;
     color: #fff;
     min-height: calc(100vh - (40px + 40px));

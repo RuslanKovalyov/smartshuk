@@ -4,6 +4,7 @@ from .models import NonExistentCity
 
 from django import forms
 from .models import RealEstateCategory, RealEstateDeal, RealEstate, RealEstatePicture, City
+from .models import SecondHandCategory, SecondHandSubCategory, SecondHandType, SecondHand, SecondHandPicture
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 # from django.core.validators import FileExtensionValidator
@@ -74,9 +75,8 @@ class RealEstate_PostingForm(forms.ModelForm):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
-
 class RealEstate_SearchForm(forms.Form):
-    template_name = "user_ads/form_snippets/real_estate_form.html"
+    template_name = "user_ads/form_snippets/search_forms/real_estate_form.html"
 
     category = forms.ModelChoiceField(
         queryset=RealEstateCategory.objects.all(),
@@ -156,4 +156,89 @@ class RealEstate_SearchForm(forms.Form):
     parking = forms.BooleanField(required=False, initial=False)
     disabled_access = forms.BooleanField(required=False, initial=False)
     without_intermediaries = forms.BooleanField(required=False, initial=False)
+    exclusive = forms.BooleanField(required=False, initial=False)
+
+class SecondHand_PostingForm(forms.ModelForm):
+    city = forms.CharField(
+        required=True,
+        label="יישוב:",
+        widget=forms.TextInput(attrs={'list': 'city_list'}),
+    )
+
+    def clean_city(self):
+        city_name = self.cleaned_data['city']
+        try:
+            city = City.objects.get(name=city_name)
+        except City.DoesNotExist:
+            non_existent_city, created = NonExistentCity.objects.get_or_create(city_name=city_name)
+            non_existent_city.count += 1
+            non_existent_city.save()
+
+            raise forms.ValidationError(
+                # "The city you entered does not exist in our database. Please select a valid city. We are working on adding more cities over time."
+                "העיר שהזנת אינה קיימת במאגר הנתונים שלנו. אנא בחר עיר תקפה. אנחנו עובדים על הוספת ערים נוספות לאורך הזמן."
+            )
+
+        return city
+
+
+    pictures = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True, 'accept': accepted_extensions}), label="תמונות נוספות, עד 10")
+    def clean_pictures(self):
+        pictures = self.files.getlist('pictures')
+        if len(pictures) > 10:
+            # raise ValidationError("You can upload a maximum of 10 pictures.")
+            raise ValidationError("ניתן להעלות מקסימום 10 תמונות.")
+        
+        # file_extension_validator = FileExtensionValidator(settings.VALID_IMAGE_EXTENSIONS)
+
+        for picture in pictures:
+            validate_file_size(picture)
+            # file_extension_validator(picture)
+
+        return pictures
+    
+    picture = forms.ImageField(
+        label='תמונה ראשית',
+        required=True,
+        widget=forms.ClearableFileInput(attrs={'accept': accepted_extensions})
+        )
+
+    class Meta:
+        model = SecondHand
+        # fields = ("__all__")
+        fields = ['category','sub_category', 'type', 'brand', 'city','picture', 'pictures', 'phone','title','description','address','cost', 'exclusive']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+class SecondHand_SearchForm(forms.Form):
+    template_name = "user_ads/form_snippets/search_forms/secondhand_form.html"
+
+    category = forms.ModelChoiceField(
+        queryset=SecondHandCategory.objects.all(),
+        empty_label="קטגוריה",
+        required=False,
+        label="Category",
+        widget=forms.Select(attrs={'onchange': "this.form.submit();"})
+    )
+
+    # if category is not None:
+    sub_category = forms.ModelChoiceField(
+        queryset=SecondHandSubCategory.objects.all(),
+        empty_label="תת קטגוריה",
+        required=False,
+        label="Sub Category",
+        widget=forms.Select(attrs={'onchange': "this.form.submit();"})
+    )
+
+    type = forms.ModelChoiceField(
+        queryset=SecondHandType.objects.all(),
+        empty_label="סוג",
+        required=False,
+        label="Type",
+        widget=forms.Select(attrs={'onchange': "this.form.submit();"})
+    )
+
+    # filters
     exclusive = forms.BooleanField(required=False, initial=False)

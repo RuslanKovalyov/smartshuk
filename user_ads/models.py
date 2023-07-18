@@ -202,7 +202,7 @@ class RealEstate(Ad):
         return date.today() > self.CheckIn_date_from
     
     def delete(self, *args, **kwargs):
-        # Delete all related pictures of ulbum
+        # Delete all related pictures of album
         for picture in self.pictures.all():
             picture.delete()
 
@@ -223,7 +223,7 @@ class RealEstatePicture(models.Model):
 
     class Meta:
         verbose_name = 'תמונה'
-        verbose_name_plural = 'תמונות נוספות (עד 10 תמונות)'
+        verbose_name_plural = 'תמונות נוספות נדל"ן'
 
     def __str__(self):
         return self.picture.name
@@ -317,3 +317,152 @@ class NonExistentCity(models.Model):
 
     def __str__(self):
         return f"{self.city_name} ({self.count})"
+
+
+############################################
+#   Next code is about Second Hand goods   #
+############################################
+
+class Brand(models.Model): # for all Searching and Filtering (New and SecondHand things)
+    # list of SecondHand brands (Samsung, LG, etc). Only for Admin Panel
+    name = models.CharField(verbose_name='Brand', max_length=100)
+    singular_name = models.CharField(verbose_name='Singular name of brand', max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = 'Brand'
+        verbose_name_plural = 'Brands'
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+class SecondHandCategory(models.Model):
+    # list of SecondHand categories (electronics, furniture, etc). Only for Admin Panel
+    name = models.CharField(verbose_name='SecondHand category', max_length=100)
+    singular_name = models.CharField(verbose_name='SecondHand singular name of category', max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = 'SecondHand category'
+        verbose_name_plural = 'SecondHand categories'
+        ordering = ['-name']
+
+    def __str__(self):
+        return self.name
+
+class SecondHandSubCategory(models.Model):
+    # list of SecondHand sub-categories (TV, computer, etc). Only for Admin Panel
+    category = models.ForeignKey(SecondHandCategory, verbose_name='SecondHand category', on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='SecondHand sub-category', max_length=100)
+    singular_name = models.CharField(verbose_name='SecondHand singular name of sub-category', max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = 'SecondHand sub-category'
+        verbose_name_plural = 'SecondHand sub-categories'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+class SecondHandType(models.Model):
+    # list of SecondHand types (black and white TV, color TV, etc). Only for Admin Panel
+    sub_category = models.ForeignKey(SecondHandSubCategory, verbose_name='SecondHand sub-category', on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='SecondHand type', max_length=100)
+    singular_name = models.CharField(verbose_name='SecondHand singular name of type', max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = 'SecondHand type'
+        verbose_name_plural = 'SecondHand types'
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+class SecondHand(Ad):
+    #...
+    category = models.ForeignKey(SecondHandCategory, verbose_name='קטגוריה', on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(SecondHandSubCategory, verbose_name='תת קטגוריה', on_delete=models.CASCADE)
+    type = models.ForeignKey(SecondHandType, verbose_name='סוג', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, verbose_name='מותג/יצרן', default=None, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name='עיר', on_delete=models.CASCADE)
+    address = models.CharField(verbose_name='כתובת',max_length=255, default='', blank=True)
+    cost = models.IntegerField(verbose_name='מחיר', validators=[MinValueValidator(0), MaxValueValidator(100000000)]) # -1 = auction
+    description = models.TextField(verbose_name='תיאור (טקסט חופשי)', max_length=1000, blank=True)
+    # without_intermediaries = models.BooleanField(verbose_name='without intermediaries', default=False,)
+    # verified seller
+    exclusive = models.BooleanField(verbose_name='בלעדי', default=False)
+
+    def delete(self, *args, **kwargs):
+        # Delete all related pictures of album
+        for picture in self.pictures.all():
+            print(f"delete picture: {picture}")
+            picture.delete()
+
+        # Call the delete method of the parent class Ad
+        super(SecondHand, self).delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name ='SecondHand' #'יד שנייה'
+        verbose_name_plural = 'SecondHand' #'יד שנייה'
+        ordering = ['category', 'sub_category', 'type', 'brand', 'city']
+
+    def __str__(self):
+        return self.category.name + ', ' + self.sub_category.name + ', ' + self.type.name + ', ' + self.brand.name + ' : ' + self.city.name
+    
+class SecondHandPicture(models.Model):
+    ad = models.ForeignKey(SecondHand, on_delete=models.CASCADE, related_name='pictures')
+    picture = models.ImageField(upload_to = 'media/user-uploads/secondhand-albums')
+
+    class Meta:
+        verbose_name = 'תמונה'
+        verbose_name_plural = 'תמונות נוספות יד שנייה'
+
+    def __str__(self):
+        return self.picture.name
+    
+    def save(self, *args, **kwargs):
+        if self.picture:
+            if self.pk:
+                current_obj = self.__class__.objects.get(pk=self.pk)
+                if current_obj.picture != self.picture:
+                    current_obj.picture.delete(save=False)
+
+            unique_id = uuid.uuid4().hex
+            timestamp = timezone.now().strftime("%Y-%m-%d_%H-%M-%S")
+            new_filename = f"{timestamp}_{unique_id}.jpg"
+
+            img = Image.open(self.picture)
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+            img = ImageOps.exif_transpose(img)
+            max_px = 800
+            if img.width > max_px or img.height > max_px:
+                img.thumbnail((max_px, max_px))
+
+            buffer = BytesIO()
+            img.save(buffer, format='JPEG')
+            buffer.seek(0)
+
+            self.picture.save(new_filename, ContentFile(buffer.read()), save=False)
+
+        super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        # print("delete picture()")
+        try:
+            # Delete the object from S3
+            default_storage.delete(str(self.picture))
+        except Exception as e:
+            # write to errors log file
+            pass
+        super().delete(*args, **kwargs)
+
+class SecondHandLike(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='likesSecondHand')
+    ad = models.ForeignKey(SecondHand, on_delete=models.CASCADE, related_name='likesSecondHand')
+
+    class Meta:
+        verbose_name = 'SecondHand like'
+        verbose_name_plural = 'SecondHand likes'
+
+    def __str__(self):
+        return str(self.ad.category.name + ' ' + self.ad.sub_category.name + ' ' + self.ad.type.name + ' ' + self.ad.brand.name + ' ' + self.ad.city.name)

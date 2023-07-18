@@ -2,7 +2,9 @@
 
 {% load static %}
 
-{% block Page_Title_Top_Info%}
+{% block Page_Title_Top_Info %}
+
+                    {% include 'user_ads/ad_sections_titles.html' %}
 
                     <form action="" method="post">
                         {% csrf_token %}
@@ -185,7 +187,6 @@
 {% block extra_js %}
 
     <script>
-        {% comment %} create or remove Like {% endcomment %}
         document.addEventListener('DOMContentLoaded', function() {
             const likeButtons = document.querySelectorAll('.like');
             likeButtons.forEach(function(likeButton) {

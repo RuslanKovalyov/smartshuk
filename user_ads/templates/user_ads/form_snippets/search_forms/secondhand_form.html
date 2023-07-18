@@ -1,0 +1,26 @@
+<div class="search_wraper">
+    <div class="search_container">
+        {{ form.category}}
+
+        {% if form.category.value %}
+            {{ form.sub_category }}
+        {% endif %}
+
+        {% if form.sub_category.value and form.category.value %}
+            {{ form.type }}
+        {% endif %}
+
+        <input class='field' type="submit" value="חיפוש" id='id_submit'>
+
+    </div>
+    {{ field.errors }}
+    <div id="filters" class="filters">
+
+        <span class="filter toggle">
+            {{ form.exclusive }}
+            <label for="id_exclusive"></label>
+            <span class="title">בלעדי</span>
+        </span>
+    </div>
+    <br>
+</div>

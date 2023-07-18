@@ -1,0 +1,13 @@
+<div class ="sections-title">
+    {% if request.path == '/real_estate/' %}  
+        <a class='active' href="{% url 'real_estate' %}"> <h1>נדל"ן</h1> </a>
+    {% else %}
+        <a href="{% url 'real_estate' %}"> <h1>נדל"ן</h1> </a>
+    {% endif %}
+
+    {% if request.path == '/secondhand/' %}  
+        <a class='active' href="{% url 'secondhand' %}"> <h1>יד שניה</h1> </a>
+    {% else %}
+        <a href="{% url 'secondhand' %}"> <h1>יד שניה</h1> </a>
+    {% endif %}
+</div>

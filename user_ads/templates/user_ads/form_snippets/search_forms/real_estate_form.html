@@ -1,5 +1,4 @@
 <div class="search_wraper">
-    {% include 'user_ads/form_snippets/ad_sections_titles.html' %}
     <div class="search_container">
         {{ form.category }}
         {{ form.deal_type }}
@@ -8,10 +7,6 @@
     </div>
     {{ field.errors }}
     <div id="filters" class="filters">
-        
-        {% comment %} <div class="scroll_btn">
-            < >
-        </div> {% endcomment %}
         
         <span class="filter">
             {{ form.max_cost }}
@@ -175,7 +170,7 @@
         <span class="filter toggle">
             {{ form.exclusive }}
             <label for="id_exclusive"></label>
-            <span class="title">בבלעדיות</span>
+            <span class="title">בלעדי</span>
         </span>
         
 

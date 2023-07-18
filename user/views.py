@@ -19,7 +19,7 @@ from django.utils.encoding import force_str
 from .models import CustomUser, Profile
 from django.utils.http import urlsafe_base64_decode
 from django.contrib import messages
-from user_ads.models import RealEstateLike
+from user_ads.models import RealEstateLike, SecondHandLike
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import Http404
 
@@ -212,8 +212,14 @@ def passwordReset_Done(request):
 @login_required
 def profile(request):
     real_estate_ads = request.user.realestate_set.all()
+    secondhand_ads = request.user.secondhand_set.all()
+
+    total_likes = RealEstateLike.objects.filter(user=request.user).count() + SecondHandLike.objects.filter(user=request.user).count()
     context = {
         'real_estate_ads': real_estate_ads,
+        'secondhand_ads': secondhand_ads,
+        'total_likes': total_likes,
+        
         'user': request.user,
     }
     return render(request, 'user/profile.html', context)

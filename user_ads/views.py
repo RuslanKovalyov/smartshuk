@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from .models import RealEstate, City, RealEstatePicture, RealEstateLike
+from .models import SecondHand, SecondHandPicture, SecondHandLike, SecondHandSubCategory, SecondHandType
 from .forms import RealEstate_SearchForm, RealEstate_PostingForm
+from .forms import SecondHand_SearchForm, SecondHand_PostingForm
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
@@ -81,7 +83,7 @@ def real_estate(request):
             disabled_access = form.cleaned_data['disabled_access']
             exclusive = form.cleaned_data['exclusive']
 
-            ads = RealEstate.objects.all().order_by('-id')
+            ads = RealEstate.objects.all().order_by('-id') #need add filter ads by date for improved performance (actual ads only)
 
             if category:
                 ads = ads.filter(category__name=category)
@@ -163,6 +165,14 @@ def real_estate_detail(request, pk):
     real_estate = get_object_or_404(RealEstate, pk=pk)
     return render(request, 'user_ads/real_estate_detail.html', {'ads': [real_estate]})
 
+
+@login_required
+def real_estate_delete(request, pk):
+    real_estate = get_object_or_404(RealEstate, pk=pk, author=request.user)
+    if request.method == 'POST':
+        real_estate.delete()
+    return redirect('user_profile')
+
 @login_required
 def liked_real_estate_ids_json(request):
     cache_key = 'liked_real_estate_ids_json_{}'.format(request.user.id if request.user.is_authenticated else 'anonymous')
@@ -185,7 +195,7 @@ def liked_real_estate_ids_json(request):
 @login_required
 def real_estate_like(request, real_estate_id):
     if request.method == 'POST':
-        print('real_estate_like')
+        # print('real_estate_like')
         real_estate = get_object_or_404(RealEstate, id=real_estate_id)
         like, created = RealEstateLike.objects.get_or_create(user=request.user, ad=real_estate)
         if not created:
@@ -202,9 +212,151 @@ def real_estate_like(request, real_estate_id):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-@login_required
-def real_estate_delete(request, pk):
-    real_estate = get_object_or_404(RealEstate, pk=pk, author=request.user)
+@csrf_protect
+@cache_page(settings.CACHE_TTL)
+def secondhand(request):
+    category = None
+    sub_category = None
+    type_ = None
     if request.method == 'POST':
-        real_estate.delete()
+        form = SecondHand_SearchForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            sub_category = form.cleaned_data['sub_category']
+            type_ = form.cleaned_data['type']
+
+
+            #update sub_category if is not valid
+            if sub_category is not None:
+                if sub_category.category != category:
+                    sub_category = None
+                    form.fields['sub_category'].queryset = SecondHandSubCategory.objects.none()
+            
+            if sub_category is not None:
+                form.fields['type'].queryset = SecondHandType.objects.filter(sub_category=sub_category.id)
+            if category is not None:
+                form.fields['sub_category'].queryset = SecondHandSubCategory.objects.filter(category=category.id)
+
+            #update type if is not valid
+            if type_ is not None:
+                if type_.sub_category != sub_category:
+                    type_ = None
+                    form.fields['type'].queryset = SecondHandType.objects.none()
+            # debug
+            # print('form is valid\n\n')
+            # print('category: ', category)
+            # print('sub_category: ', sub_category)
+            # print('type: ', type_)
+            
+        else:
+            form = SecondHand_SearchForm()
+    else:
+        form = SecondHand_SearchForm()
+
+
+    # ads = SecondHand.objects.all().order_by('-id')
+    ads = SecondHand.objects.select_related('category', 'sub_category', 'type').order_by('-id') # make test for performance if is work faster!?
+    if category:
+        ads = ads.filter(category=category)
+    if sub_category:
+        ads = ads.filter(sub_category=sub_category)
+    if type_:
+        ads = ads.filter(type=type_)
+    
+    # pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(ads, 20)  # Show 50 ads per page
+
+    try:
+        ads = paginator.get_page(page)
+    except (PageNotAnInteger, EmptyPage):
+        ads = paginator.get_page(1)
+
+    context = { 'form': form, 'ads': ads }
+    return render(request, 'user_ads/secondhand/secondhand.html', context)
+
+@login_required
+def secondhand_post(request):
+
+    # Check if the user has already posted 3 ads
+    user_ads_count = SecondHand.objects.filter(author=request.user).count()
+    if user_ads_count >= 3:
+        messages.error(request, "משתמשים רגילים יכולים לפרסם עד 3 מודעות בלבד.")
+        # Redirect the user to the same page where they clicked the button
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            return redirect(referer)
+        else:
+            return redirect('secondhand')
+    
+    city_list = City.objects.all().order_by('name')
+    if request.method == 'POST':
+        form = SecondHand_PostingForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            secondhand = form.save(commit=False)
+            secondhand.author = request.user  # set author to current user
+            secondhand.save()
+            
+            # handle pictures upload and link them to the secondhand object
+            for picture in request.FILES.getlist('pictures'):
+                SecondHandPicture.objects.create(ad=secondhand, picture=picture)
+
+            return redirect('secondhand')
+    else:
+        form = SecondHand_PostingForm()
+    context = { 'form': form,
+                'city_list': city_list, 
+               }
+    return render(request, 'user_ads/post_new_ad/secondhand_post.html', context)
+
+@login_required
+def secondhand_detail(request, pk):
+    secondhand = get_object_or_404(SecondHand, pk=pk)
+    return render(request, 'user_ads/secondhand/secondhand_detail.html', {'ads': [secondhand]})
+
+@login_required
+def secondhand_delete(request, pk):
+    secondhand = get_object_or_404(SecondHand, pk=pk, author=request.user)
+    if request.method == 'POST':
+        secondhand.delete()
     return redirect('user_profile')
+
+@login_required
+def liked_secondhand_ids_json(request):
+    cache_key = 'liked_secondhand_ids_json_{}'.format(request.user.id if request.user.is_authenticated else 'anonymous')
+    cached_data = cache.get(cache_key)
+    if cached_data:
+        return JsonResponse(cached_data)
+        
+    if request.user.is_authenticated:
+        liked_secondhand_ids = SecondHandLike.objects.filter(user=request.user).values_list('ad_id', flat=True)
+    else:
+        liked_secondhand_ids = []
+
+    data = {'liked_secondhand_ids': list(liked_secondhand_ids)}
+
+    # Cache the data
+    cache.set(cache_key, data, settings.CACHE_TTL)
+
+    return JsonResponse(data)
+
+@login_required
+def secondhand_like(request, secondhand_id):
+    print('secondhand_like')
+    if request.method == 'POST':
+        secondhand = get_object_or_404(SecondHand, id=secondhand_id)
+        like, created = SecondHandLike.objects.get_or_create(user=request.user, ad=secondhand)
+        if not created:
+            like.delete()
+
+        # Delete the cached data
+        cache_key = 'liked_secondhand_ids_json_{}'.format(request.user.id)
+        cache.delete(cache_key)
+
+        # Call liked_json to update the cache
+        liked_secondhand_ids_json(request)
+        
+        return JsonResponse({'created': created})
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
