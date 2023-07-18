@@ -212,50 +212,35 @@ def real_estate_like(request, real_estate_id):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-@csrf_protect
 @cache_page(settings.CACHE_TTL)
 def secondhand(request):
     category = None
     sub_category = None
     type_ = None
-    if request.method == 'POST':
-        form = SecondHand_SearchForm(request.POST)
-        if form.is_valid():
-            category = form.cleaned_data['category']
-            sub_category = form.cleaned_data['sub_category']
-            type_ = form.cleaned_data['type']
 
+    form = SecondHand_SearchForm(request.GET)
 
-            #update sub_category if is not valid
-            if sub_category is not None:
-                if sub_category.category != category:
-                    sub_category = None
-                    form.fields['sub_category'].queryset = SecondHandSubCategory.objects.none()
-            
-            if sub_category is not None:
-                form.fields['type'].queryset = SecondHandType.objects.filter(sub_category=sub_category.id)
-            if category is not None:
-                form.fields['sub_category'].queryset = SecondHandSubCategory.objects.filter(category=category.id)
+    if form.is_valid():
+        category = form.cleaned_data['category']
+        sub_category = form.cleaned_data['sub_category']
+        type_ = form.cleaned_data['type']
 
-            #update type if is not valid
-            if type_ is not None:
-                if type_.sub_category != sub_category:
-                    type_ = None
-                    form.fields['type'].queryset = SecondHandType.objects.none()
-            # debug
-            # print('form is valid\n\n')
-            # print('category: ', category)
-            # print('sub_category: ', sub_category)
-            # print('type: ', type_)
-            
-        else:
-            form = SecondHand_SearchForm()
-    else:
-        form = SecondHand_SearchForm()
+        if sub_category and sub_category.category != category:
+            sub_category = None
+            form.fields['sub_category'].queryset = SecondHandSubCategory.objects.none()
+        
+        if type_ and type_.sub_category != sub_category:
+            type_ = None
+            form.fields['type'].queryset = SecondHandType.objects.none()
+        
+        if category:
+            form.fields['sub_category'].queryset = SecondHandSubCategory.objects.filter(category=category.id)
+        
+        if sub_category:
+            form.fields['type'].queryset = SecondHandType.objects.filter(sub_category=sub_category.id)
+    
+    ads = SecondHand.objects.all().order_by('-id')
 
-
-    # ads = SecondHand.objects.all().order_by('-id')
-    ads = SecondHand.objects.select_related('category', 'sub_category', 'type').order_by('-id') # make test for performance if is work faster!?
     if category:
         ads = ads.filter(category=category)
     if sub_category:
@@ -274,6 +259,7 @@ def secondhand(request):
 
     context = { 'form': form, 'ads': ads }
     return render(request, 'user_ads/secondhand/secondhand.html', context)
+
 
 @login_required
 def secondhand_post(request):

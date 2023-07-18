@@ -7,8 +7,7 @@
                     {% include 'user_ads/ad_sections_titles.html' %}
 
                     {% comment %} <form  method="post" action="?category_id={{ form.category.value }}"> {% endcomment %}
-                    <form action="" method="post">
-                        {% csrf_token %}
+                    <form action="" method="GET">
                         {{ form }}
                     </form>
 
