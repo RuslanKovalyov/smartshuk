@@ -3,7 +3,7 @@ logging.basicConfig(filename="city_log.log", level=logging.INFO, format="%(ascti
 from .models import NonExistentCity
 
 from django import forms
-from .models import RealEstateCategory, RealEstateDeal, RealEstate, RealEstatePicture, City
+from .models import RealEstateCategory, RealEstateDeal, RealEstate, RealEstatePicture, City, Region
 from .models import SecondHandCategory, SecondHandSubCategory, SecondHandType, SecondHand, SecondHandPicture
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -96,7 +96,7 @@ class RealEstate_SearchForm(forms.Form):
                            widget=forms.TextInput(attrs={'placeholder': 'בכל עיר', 'list': 'city_list'},))
 
     # filters
-    with_phote_only_toggle = forms.BooleanField(required=False, initial=True)
+    with_image = forms.BooleanField(required=False, initial=True)
     max_cost = forms.IntegerField(
         required=False, min_value=0, max_value=1_000_000_000,
         widget=forms.NumberInput(
@@ -249,4 +249,17 @@ class SecondHand_SearchForm(forms.Form):
     )
 
     # filters
+    with_image = forms.BooleanField(required=False, initial=True)
     exclusive = forms.BooleanField(required=False, initial=False)
+    min_price = forms.IntegerField(required=False, min_value=0, max_value=1_000_000_000, widget=forms.NumberInput(attrs={'placeholder': 'מת--'}))
+    max_price = forms.IntegerField(required=False, min_value=0, max_value=1_000_000_000, widget=forms.NumberInput(attrs={'placeholder': 'עד--'}))
+    region = forms.ModelChoiceField(
+        queryset=Region.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'placeholder': 'בכל אזור'}),
+        empty_label="בכל אזור"
+    )
+    # region to do
+    # is new, is used, is for parts
+    
+

@@ -16,6 +16,26 @@
     {{ field.errors }}
     <div id="filters" class="filters">
 
+        <span class="filter">
+            {{ form.region }}
+            <span class="title">אזור</span>
+        </span>
+
+        <span class="filter">
+            {{ form.min_price }}
+            <span class="title">מחיר מינימלי</span>
+        </span>
+        <span class="filter">
+            {{ form.max_price }}
+            <span class="title">מחיר מקסימלי</span>
+        </span>
+
+        <span class="filter toggle">
+            {{ form.with_image }}
+            <label for="id_with_image"></label>
+            <span class="title">עם תמונה</span>
+        </span>
+
         <span class="filter toggle">
             {{ form.exclusive }}
             <label for="id_exclusive"></label>

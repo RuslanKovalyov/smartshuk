@@ -11,30 +11,6 @@
                         {{ form }}
                     </form>
 
-                        {% comment %} not ready {% endcomment %}
-                        <datalist id="city_list">
-                            {% for city in city_list %}
-                                <option value="{{ city.name }}">
-                            {% endfor %}
-                        </datalist>
-                        <script>
-                            var input = document.getElementById('id_city');
-                            var datalist = document.getElementById('city_list');
-                            var options = datalist.getElementsByTagName('option');
-                            input.addEventListener('input', function() {
-                            // Hide the dropdown list if there are no matching options
-                            var matching_options = Array.from(options).filter(function(option) {
-                                return option.value.indexOf(input.value) === 0;
-                            });
-                            if (matching_options.length === 0) {
-                                datalist.style.display = 'none';
-                                return;
-                            }
-                            // Show the dropdown list and highlight the first matching option
-                            datalist.style.display = 'block';
-                            matching_options[0].selected = true;
-                            });
-                        </script>
                     
 {% endblock Page_Title_Top_Info %}
 

@@ -14,10 +14,10 @@
                         {% comment %} not ready {% endcomment %}
                         <datalist id="city_list">
                             {% for city in city_list %}
-                                <option value="{{ city.name }}">
+                                <option value="{{ city.name }}"></option>
                             {% endfor %}
                         </datalist>
-                        <script>
+                        {% comment %} <script>
                             var input = document.getElementById('id_city');
                             var datalist = document.getElementById('city_list');
                             var options = datalist.getElementsByTagName('option');
@@ -34,7 +34,7 @@
                             datalist.style.display = 'block';
                             matching_options[0].selected = true;
                             });
-                        </script>
+                        </script> {% endcomment %}
                     
 {% endblock Page_Title_Top_Info %}
 

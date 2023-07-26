@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
-from .models import RealEstate, City, RealEstatePicture, RealEstateLike
+from .models import RealEstate, City, Region, RealEstatePicture, RealEstateLike
 from .models import SecondHand, SecondHandPicture, SecondHandLike, SecondHandSubCategory, SecondHandType
 from .forms import RealEstate_SearchForm, RealEstate_PostingForm
 from .forms import SecondHand_SearchForm, SecondHand_PostingForm
@@ -68,7 +68,7 @@ def real_estate(request):
             city = form.cleaned_data['city']
             max_cost = form.cleaned_data['max_cost']
             without_intermediaries = form.cleaned_data['without_intermediaries']
-            with_photo = form.cleaned_data['with_phote_only_toggle']
+            with_photo = form.cleaned_data['with_image']
             min_rooms = form.cleaned_data['min_rooms']
             max_rooms = form.cleaned_data['max_rooms']
             is_new = form.cleaned_data['is_new']
@@ -85,6 +85,7 @@ def real_estate(request):
 
             ads = RealEstate.objects.all().order_by('-id') #need add filter ads by date for improved performance (actual ads only)
 
+            # filters
             if category:
                 ads = ads.filter(category__name=category)
             if deal_type:
@@ -217,6 +218,7 @@ def secondhand(request):
     category = None
     sub_category = None
     type_ = None
+    region_list = Region.objects.all().order_by('name')
 
     form = SecondHand_SearchForm(request.GET)
 
@@ -224,6 +226,11 @@ def secondhand(request):
         category = form.cleaned_data['category']
         sub_category = form.cleaned_data['sub_category']
         type_ = form.cleaned_data['type']
+        region = form.cleaned_data['region']
+        min_price = form.cleaned_data['min_price']
+        max_price = form.cleaned_data['max_price']
+        with_photo = form.cleaned_data['with_image']
+        exclusive = form.cleaned_data['exclusive']
 
         if sub_category and sub_category.category != category:
             sub_category = None
@@ -241,12 +248,24 @@ def secondhand(request):
     
     ads = SecondHand.objects.all().order_by('-id')
 
+    # filters
     if category:
         ads = ads.filter(category=category)
     if sub_category:
         ads = ads.filter(sub_category=sub_category)
     if type_:
         ads = ads.filter(type=type_)
+    if min_price:
+            ads = ads.filter(cost__gte=min_price)
+    if max_price:
+        ads = ads.filter(cost__lte=max_price)
+    if region:
+        ads = ads.filter(city__region=region)
+    
+    if with_photo:
+        pass # TODO
+    if exclusive:
+        ads = ads.filter(exclusive=True)
     
     # pagination
     page = request.GET.get('page', 1)
@@ -257,7 +276,8 @@ def secondhand(request):
     except (PageNotAnInteger, EmptyPage):
         ads = paginator.get_page(1)
 
-    context = { 'form': form, 'ads': ads }
+    context = { 'form': form, 'ads': ads,
+                'region_list': region_list, }
     return render(request, 'user_ads/secondhand/secondhand.html', context)
 
 
