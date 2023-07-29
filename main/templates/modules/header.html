@@ -2,9 +2,10 @@
 <header>
     <div class="top_nav">
         {% if request.resolver_match.url_name == 'real_estate_post' %}
-            {% comment %} <a class="btn top_nav_left" href="{% url 'home' %}">חזרה לדף הבית</a> {% endcomment %}
+        {% elif request.resolver_match.url_name == 'secondhand_post' %}
+        {% elif request.resolver_match.url_name == 'new_ad' %}
         {% else %}
-            <a class="btn top_nav_left" href="{% url 'real_estate_post' %}">פרסם מודעה</a>
+            <a class="btn top_nav_left" href="{% url 'new_ad' %}">פרסם מודעה</a>
         {% endif %}
     
 

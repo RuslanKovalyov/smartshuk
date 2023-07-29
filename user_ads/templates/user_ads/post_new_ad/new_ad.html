@@ -1,0 +1,25 @@
+{% extends 'modules/user_ads_base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'user_ads/css/ad_post.css' %}" type="text/css">
+{% endblock extra_css %}
+
+{% block main_content %}
+
+<h1>בחר סוג מודעה</h1>
+    <div class="ad-type-buttons-container">
+            
+        <button id="ad-type" onclick="window.location.href='{% url 'real_estate_post' %}'">
+            <span>נדל"ן</span>
+        </button>
+
+        <button id="ad-type" onclick="window.location.href='{% url 'secondhand_post' %}'">
+            <span>יד שנייה</span>
+        </button>
+            
+    </div>
+
+  
+{% endblock main_content %}

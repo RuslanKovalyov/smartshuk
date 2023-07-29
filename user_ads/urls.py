@@ -16,4 +16,8 @@ urlpatterns = [
     path('secondhand/liked_secondhand_ids_json/', views.liked_secondhand_ids_json, name='liked_secondhand_ids_json'),
     path('secondhand/like/<int:secondhand_id>/', views.secondhand_like, name='secondhand_like'),
 
+    # page of new post section selection
+    path('new_ad/', views.new_ad, name="new_ad"),
+    
+
 ]

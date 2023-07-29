@@ -280,7 +280,6 @@ def secondhand(request):
                 'region_list': region_list, }
     return render(request, 'user_ads/secondhand/secondhand.html', context)
 
-
 @login_required
 def secondhand_post(request):
 
@@ -366,3 +365,7 @@ def secondhand_like(request, secondhand_id):
         return JsonResponse({'created': created})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@login_required
+def new_ad(request):
+    return render(request, 'user_ads/post_new_ad/new_ad.html')

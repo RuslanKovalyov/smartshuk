@@ -55,6 +55,22 @@ input[type="checkbox"] {
     margin-right: 5px;
 }
 
+.ad-type-buttons-container{
+    max-width: 500px;
+    margin: auto;
+}
+
+#ad-type {
+    width: 98%;
+    margin: 20px 1% 10px 1%;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: rgb(255 150 0);
+    color: black;
+    padding: 8px 16px;
+    transition: all 0.2s ease-in-out;    
+}
+
 #new-ad-submit-btn {
     width: 98%;
     margin: 20px 1%;
@@ -64,6 +80,17 @@ input[type="checkbox"] {
     color: black;
     padding: 8px 16px;
     transition: all 0.2s ease-in-out;
+}
+
+#ad-type:hover {
+    background-color: #333;
+    border-color: rgb(255 150 0);
+    color: rgb(255 150 0);
+    cursor: pointer;
+}
+
+#ad-type:active {
+    background-color: #777;
 }
 
 #new-ad-submit-btn:hover {
