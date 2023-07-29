@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
-from .models import RealEstate, City, Region, RealEstatePicture, RealEstateLike
+from .models import RealEstate, City, Region, RealEstatePicture, RealEstateLike, Brand
 from .models import SecondHand, SecondHandPicture, SecondHandLike, SecondHandSubCategory, SecondHandType
 from .forms import RealEstate_SearchForm, RealEstate_PostingForm
 from .forms import SecondHand_SearchForm, SecondHand_PostingForm
@@ -295,6 +295,7 @@ def secondhand_post(request):
             return redirect('secondhand')
     
     city_list = City.objects.all().order_by('name')
+    brand_list = Brand.objects.all().order_by('name')
     if request.method == 'POST':
         form = SecondHand_PostingForm(request.POST, request.FILES)
 
@@ -311,7 +312,8 @@ def secondhand_post(request):
     else:
         form = SecondHand_PostingForm()
     context = { 'form': form,
-                'city_list': city_list, 
+                'city_list': city_list,
+                'brand_list': brand_list,
                }
     return render(request, 'user_ads/post_new_ad/secondhand_post.html', context)
 

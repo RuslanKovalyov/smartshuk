@@ -143,6 +143,23 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model): # for all Searching and Filtering (New and SecondHand things)
+    # list of SecondHand brands (Samsung, LG, etc). Only for Admin Panel
+    name = models.CharField(verbose_name='Brand', max_length=100)
+    singular_name = models.CharField(verbose_name='Singular name of brand', max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = 'Brand'
+        verbose_name_plural = 'Brands'
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+##########################################
+#       Next code is about RealEstate    #
+##########################################
+
 class RealEstateCategory(models.Model):
     """List of RealEstate options (New Home, Apartments for rent, Garag, Commercial, Etc). Only for Admin Panel"""
     name = models.CharField(verbose_name='Real estate category', max_length=100)
@@ -323,19 +340,6 @@ class NonExistentCity(models.Model):
 #   Next code is about Second Hand goods   #
 ############################################
 
-class Brand(models.Model): # for all Searching and Filtering (New and SecondHand things)
-    # list of SecondHand brands (Samsung, LG, etc). Only for Admin Panel
-    name = models.CharField(verbose_name='Brand', max_length=100)
-    singular_name = models.CharField(verbose_name='Singular name of brand', max_length=100, blank=True)
-
-    class Meta:
-        verbose_name = 'Brand'
-        verbose_name_plural = 'Brands'
-        ordering = ['name']
-    
-    def __str__(self):
-        return self.name
-
 class SecondHandCategory(models.Model):
     # list of SecondHand categories (electronics, furniture, etc). Only for Admin Panel
 
@@ -385,9 +389,9 @@ class SecondHand(Ad):
     category = models.ForeignKey(SecondHandCategory, verbose_name='קטגוריה', on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SecondHandSubCategory, verbose_name='תת קטגוריה', on_delete=models.CASCADE)
     type = models.ForeignKey(SecondHandType, verbose_name='סוג', on_delete=models.CASCADE)
-    brand = models.ForeignKey(Brand, verbose_name='מותג/יצרן', default=None, on_delete=models.CASCADE)
     city = models.ForeignKey(City, verbose_name='עיר', on_delete=models.CASCADE)
-    address = models.CharField(verbose_name='כתובת',max_length=255, default='', blank=True)
+    brand = models.CharField(verbose_name='מותג/יצרן', max_length=255, default='', blank=True)
+    address = models.CharField(verbose_name='כתובת', max_length=255, default='', blank=True)
     cost = models.IntegerField(verbose_name='מחיר', validators=[MinValueValidator(0), MaxValueValidator(100000000)]) # -1 = auction
     description = models.TextField(verbose_name='תיאור (טקסט חופשי)', max_length=1000, blank=True)
     # without_intermediaries = models.BooleanField(verbose_name='without intermediaries', default=False,)
@@ -409,7 +413,7 @@ class SecondHand(Ad):
         ordering = ['category', 'sub_category', 'type', 'brand', 'city']
 
     def __str__(self):
-        return self.category.name + ', ' + self.sub_category.name + ', ' + self.type.name + ', ' + self.brand.name + ' : ' + self.city.name
+        return self.category.name + ', ' + self.sub_category.name + ', ' + self.type.name + ', ' + self.brand + ' : ' + self.city.name
     
 class SecondHandPicture(models.Model):
     ad = models.ForeignKey(SecondHand, on_delete=models.CASCADE, related_name='pictures')
@@ -468,4 +472,4 @@ class SecondHandLike(models.Model):
         verbose_name_plural = 'SecondHand likes'
 
     def __str__(self):
-        return str(self.ad.category.name + ' ' + self.ad.sub_category.name + ' ' + self.ad.type.name + ' ' + self.ad.brand.name + ' ' + self.ad.city.name)
+        return str(self.ad.category.name + ' ' + self.ad.sub_category.name + ' ' + self.ad.type.name + ' ' + self.ad.brand + ' ' + self.ad.city.name)

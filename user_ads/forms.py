@@ -159,6 +159,23 @@ class RealEstate_SearchForm(forms.Form):
     exclusive = forms.BooleanField(required=False, initial=False)
 
 class SecondHand_PostingForm(forms.ModelForm):
+
+    brand = forms.CharField(
+        required=False,
+        label="מותג/יצרן",
+        widget=forms.TextInput(attrs={'list': 'brand_list', 'placeholder': 'אופציונאלי'}),
+    )
+
+    def clear_brand(self):
+        brand = self.cleaned_data['brand']
+        try:
+            # brand = Brand.objects.get(name=brand)
+            pass
+        except Brand.DoesNotExist:
+            pass # TODO: add brand to non existent brands or create new brand
+        
+        return brand
+
     city = forms.CharField(
         required=True,
         label="יישוב:",

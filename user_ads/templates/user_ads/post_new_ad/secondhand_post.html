@@ -26,9 +26,41 @@
           <option value="{{ city.name }}">
       {% endfor %}
     </datalist>
+
+    <datalist id="brand_list">
+      {% for brand in brand_list %}
+          <option value="{{ brand.name }}">
+      {% endfor %}
+    </datalist>
+
     <script>
+        // City list autocomplete
         var input = document.getElementById('id_city');
         var datalist = document.getElementById('city_list');
+        var options = datalist.getElementsByTagName('option');
+        input.addEventListener('input', function() {
+        // Hide the dropdown list if there are no matching options
+        var matching_options = Array.from(options).filter(function(option) {
+            return option.value.indexOf(input.value) === 0;
+        });
+
+        datalist.style.overflowY = 'scroll';
+        datalist.style.maxHeight = '100px';
+
+        if (matching_options.length === 0) {
+            datalist.style.display = 'none';
+            return;
+        }
+        // Show the dropdown list and highlight the first matching option
+        datalist.style.display = 'block';
+        matching_options[0].selected = true;
+        });
+    </script>
+
+    <script>
+        // Brand list autocomplete
+        var input = document.getElementById('id_brand');
+        var datalist = document.getElementById('brand_list');
         var options = datalist.getElementsByTagName('option');
         input.addEventListener('input', function() {
         // Hide the dropdown list if there are no matching options
