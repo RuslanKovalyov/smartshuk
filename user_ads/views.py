@@ -11,12 +11,12 @@ from django.http import JsonResponse
 import json
 from django.core.cache import cache
 from django.views.decorators.csrf import csrf_protect
-
 # Fuzzy string matching with fuzzywuzzy (MIT License)
 # https://github.com/seatgeek/fuzzywuzzy
 from fuzzywuzzy import process # Find the most likely city name based on the user's input
-
 from django.contrib import messages
+from django.views import View
+
 
 
 @login_required
@@ -369,3 +369,16 @@ def secondhand_like(request, secondhand_id):
 @login_required
 def new_ad(request):
     return render(request, 'user_ads/post_new_ad/new_ad.html')
+
+class GetSubcategoriesOfSecondhand(View):
+    def get(self, request, *args, **kwargs):
+        category_id = self.kwargs.get('category_id')
+        sub_categories = SecondHandSubCategory.objects.filter(category_id=category_id).values('id', 'name')
+        return JsonResponse(list(sub_categories), safe=False)
+
+class GetTypeOfSecondhand(View):
+    def get(self, request, *args, **kwargs):
+        sub_category_id = self.kwargs.get('sub_category_id')
+        types = SecondHandType.objects.filter(sub_category_id=sub_category_id).values('id', 'name')
+        return JsonResponse(list(types), safe=False)
+

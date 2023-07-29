@@ -56,6 +56,60 @@
 
   </form>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    // Get subcategories of the selected category and same for types
+    $(document).ready(function() {
+      // Clear subcategories and types dropdowns when the page loads
+      $('#id_sub_category').empty();
+      $('#id_type').empty();
+  
+      // Add a default option back into the dropdowns
+      $('#id_sub_category').append('<option value="">---------</option>');
+      $('#id_type').append('<option value="">---------</option>');
+  
+      $('#id_category').change(function() {
+          var url = "{% url 'get_subcategories_of_secondhand' 0 %}".replace('0', $(this).val());
+          $.ajax({
+              url: url,
+              success: function(data) {
+                  var select = $('#id_sub_category');
+                  select.empty();  // Empty the dropdown before adding new options
+  
+                  // Add a default option back into the dropdown
+                  select.append('<option value="">---------</option>');
+  
+                  $.each(data, function(index, value) {
+                      select.append(new Option(value.name, value.id));
+                  });
+  
+                  // Clear types dropdown when category changes and add a default option
+                  var typeSelect = $('#id_type');
+                  typeSelect.empty();
+                  typeSelect.append('<option value="">---------</option>');
+              }
+          });
+      });
+  
+      $('#id_sub_category').change(function() {
+          var url = "{% url 'get_type_of_secondhand' 0 %}".replace('0', $(this).val());
+          $.ajax({
+              url: url,
+              success: function(data) {
+                  var select = $('#id_type');
+                  select.empty();  // Empty the dropdown before adding new options
+  
+                  // Add a default option back into the dropdown
+                  select.append('<option value="">---------</option>');
+  
+                  $.each(data, function(index, value) {
+                      select.append(new Option(value.name, value.id));
+                  });
+              }
+          });
+      });
+    });
+  </script>
 
   <script>
     {% comment %} Disable the submit button after clicking it, to prevent double-clicking {% endcomment %}

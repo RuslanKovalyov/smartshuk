@@ -18,6 +18,8 @@ urlpatterns = [
 
     # page of new post section selection
     path('new_ad/', views.new_ad, name="new_ad"),
+    # get child model instances for new post section by parent model
+    path('get_subcategories_of_secondhand/<int:category_id>/', views.GetSubcategoriesOfSecondhand.as_view(), name='get_subcategories_of_secondhand'),
+    path('get_type_of_secondhand/<int:sub_category_id>/', views.GetTypeOfSecondhand.as_view(), name='get_type_of_secondhand'),
     
-
 ]
