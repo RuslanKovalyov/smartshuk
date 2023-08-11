@@ -24,7 +24,7 @@ def real_estate_post(request):
 
     # Check if the user has already posted 3 ads
     user_ads_count = RealEstate.objects.filter(author=request.user).count()
-    if user_ads_count >= 3:
+    if user_ads_count >= 3 and not request.user.is_staff:
         messages.error(request, "משתמשים רגילים יכולים לפרסם עד 3 מודעות בלבד.")
         # Redirect the user to the same page where they clicked the button
         referer = request.META.get('HTTP_REFERER')
@@ -285,7 +285,7 @@ def secondhand_post(request):
 
     # Check if the user has already posted 3 ads
     user_ads_count = SecondHand.objects.filter(author=request.user).count()
-    if user_ads_count >= 3:
+    if user_ads_count >= 3 and not request.user.is_staff:
         messages.error(request, "משתמשים רגילים יכולים לפרסם עד 3 מודעות בלבד.")
         # Redirect the user to the same page where they clicked the button
         referer = request.META.get('HTTP_REFERER')
