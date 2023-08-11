@@ -179,7 +179,7 @@ class SecondHand_PostingForm(forms.ModelForm):
     city = forms.CharField(
         required=True,
         label="יישוב:",
-        widget=forms.TextInput(attrs={'list': 'city_list'}),
+        widget=forms.TextInput(attrs={'list': 'city_list', 'placeholder': " עברית (עיר, כפר וכו')"}),
     )
 
     def clean_city(self):
