@@ -230,7 +230,7 @@ def secondhand(request):
         min_price = form.cleaned_data['min_price']
         max_price = form.cleaned_data['max_price']
         with_photo = form.cleaned_data['with_image']
-        exclusive = form.cleaned_data['exclusive']
+        # exclusive = form.cleaned_data['exclusive']
 
         if sub_category and sub_category.category != category:
             sub_category = None
@@ -264,8 +264,8 @@ def secondhand(request):
     
     if with_photo:
         pass # TODO
-    if exclusive:
-        ads = ads.filter(exclusive=True)
+    # if exclusive:
+    #     ads = ads.filter(exclusive=True)
     
     # pagination
     page = request.GET.get('page', 1)

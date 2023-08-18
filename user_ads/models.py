@@ -396,7 +396,7 @@ class SecondHand(Ad):
     description = models.TextField(verbose_name='תיאור (טקסט חופשי)', max_length=1000, blank=True)
     # without_intermediaries = models.BooleanField(verbose_name='without intermediaries', default=False,)
     # verified seller
-    exclusive = models.BooleanField(verbose_name='בלעדי', default=False)
+    exclusive = models.BooleanField(verbose_name='בלעדי', default=False)# not in use
 
     def delete(self, *args, **kwargs):
         # Delete all related pictures of album
