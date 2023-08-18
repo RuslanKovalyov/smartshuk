@@ -1,0 +1,50 @@
+<!-- honeypot.html -->
+<div style="display: none;">
+
+    <h1>Do not load this page</h1>
+    <p>This page is a honeypot. If you are a human, you should not be here.</p>
+
+    <!-- 1. Invisible Links Honeypot -->
+    <a href="{% url 'honeypot' %}" style="opacity:0; position: absolute; top: -1000px;">Do not click</a>
+
+    <!-- 2. Hidden Forms (POST method) -->
+    <form action="{% url 'honeypot' %}" method="POST" style="">
+        {% csrf_token %}
+        <input type="text" name="username" />
+        <input type="password" name="password" />
+        <input type="submit" hidden value="Login" />
+    </form>
+
+    <!-- Hidden Forms (GET method) -->
+    <form action="{% url 'honeypot' %}" method="GET" style="">
+        <input type="text" name="search" placeholder="Search here..." />
+        {% comment %} <input type="submit" hidden value="Search" /> {% endcomment %}
+    </form>
+
+    <!-- 3. Image with Lazy Loading (not downloaded for normal users) -->
+    <p style="color: white;"> image
+        <br>
+        <img src="{% url 'honeypot' %}" alt="Do not load" loading="lazy">
+    </p>
+
+    <!-- 4. Fake APIs or Endpoints (using JavaScript to call the same honeypot URL via AJAX) -->
+    <button id="hiddenApiTrigger" style="display: none;">Hidden API Trigger</button>
+    <script>
+        function triggerHiddenApi() {
+            // This simulates an API call to the honeypot endpoint.
+            fetch("{% url 'honeypot' %}")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => console.log(data))
+                .catch(error => console.error('Hidden API Error:', error));
+        }
+    
+        document.getElementById('hiddenApiTrigger').addEventListener('click', triggerHiddenApi);
+    </script>
+    
+
+</div>

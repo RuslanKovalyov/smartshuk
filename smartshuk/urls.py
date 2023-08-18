@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('user.urls')),
     path('', include('user_ads.urls')),
     path('', include('mapping_app.urls')),
+    path('', include('honeypot.urls')),
     path('404/', page_404, name='404'), # for debag mode test by enter www.site.com/404
 ]
 handler404 = 'main.views.handler404'

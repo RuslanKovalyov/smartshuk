@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'storages', #'storages', *It's not necessary. This library is not technically a django app.
     'captcha',
     'mapping_app',
+    'honeypot',
 ]
 
 # Google reCAPTCHA 
@@ -248,3 +249,25 @@ Deployment checklist
 5. Run python3 manage.py createsuperuser # This command will create a new superuser account.
 6. Test application by running python3 manage.py runserver.
 '''
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'honeypot_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'honeypot/honeypot.log'),
+        },
+    },
+    'loggers': {
+        # 'django': {
+        #     'handlers': ['honeypot_file'],
+        # },
+
+        'honeypot': {
+            'handlers': ['honeypot_file'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
