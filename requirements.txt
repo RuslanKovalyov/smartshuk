@@ -1,0 +1,15 @@
+#python3.10.11
+Django==4.2.4
+#pip install python-dotenv
+python-dotenv     1.0.0
+
+#pip install django-simple-captcha
+django-simple-captcha  0.5.18
+
+
+#pip3.10 freeze > requirements.txt
+asgiref==3.7.2
+Django==4.2.4
+django-storages==1.13.2
+sqlparse==0.4.4
+typing_extensions==4.7.1
